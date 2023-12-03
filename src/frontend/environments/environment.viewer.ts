@@ -10,6 +10,9 @@ export const environment: AppEnvironment = {
     defaultSearchTypes: '',
     emptyDefaultSearchTypes: '',
     useAssetStoreUrls: false,
+    pdocWritable: false,
+    pdocActionTagWritable: false,
+    pdocEmptyDefaultSearchTypes: 'page',
     allowAutoPlay: false,
     cookieLawSeenName: 'cookieLawSeenV20180525',
     trackingProviders: [], // Angulartics2Piwik

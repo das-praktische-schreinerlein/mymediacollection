@@ -186,8 +186,8 @@ export const environment = {
     "meta.title.prefix.cdocSectionShowPage": "MySimpleHomePage - {{title}} - {{cdoc}}",
     "meta.desc.prefix.errorPage": "MySimpleHomePage - Oje ein Fehler ist aufgetreten",
     "meta.desc.prefix.sectionPage": "MySimpleHomePage - {{title}} - {{teaser}}",
-    "meta.desc.prefix.cdocSearchPage": "MySimpleHomePage - Touren/Berichte/Regionen/Bilder/Infos",
+    "meta.desc.prefix.cdocSearchPage": "MySimpleHomePage - Infos",
     "meta.desc.prefix.cdocShowPage": "MySimpleHomePage - Infos für {{cdoc}}",
-    "meta.desc.prefix.cdocSectionSearchPage": "MySimpleHomePage - Touren/Berichte/Regionen/Bilder/Infos zum Thema {{title}} - {{teaser}}",
+    "meta.desc.prefix.cdocSectionSearchPage": "MySimpleHomePage - Infos zum Thema {{title}} - {{teaser}}",
     "meta.desc.prefix.cdocSectionShowPage": "MySimpleHomePage - {{title}} - Infos für {{cdoc}}",
 ```

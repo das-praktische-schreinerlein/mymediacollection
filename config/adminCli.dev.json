@@ -1,4 +1,5 @@
 {
+    "profile": "dev",
     "adminWritable": true,
     "availableCommands": {
         "*": "*"
@@ -28,19 +29,43 @@
                 {
                     "parameters": {
                         "command": "initConfig",
-                        "action": "resetServicePasswords"
+                        "action": "resetServicePasswords",
+                        "solrconfigbasepath": "dist/contrib/solr/server/solr"
                     }
                 }
             ]
         },
         "prepareAppEnvAfterUpdate": {
-            "description": "prepare app-environment after update (no actions required)",
+            "description": "prepare app-environment after update (reset solr passwords)",
             "commands": [
+                {
+                    "parameters": {
+                        "command": "initConfig",
+                        "action": "resetSolrPasswords",
+                        "solrconfigbasepath": "dist/contrib/solr/server/solr"
+                    }
+                }
             ]
         },
         "prepareAppEnv": {
-            "description": "prepare app-environment on every startup (reset runtime passwords)",
+            "description": "prepare app-environment on every startup (do database-migrations, reset runtime passwords)",
             "commands": [
+                {
+                    "parameters": {
+                        "command": "dbMigrate",
+                        "action": "migrateDB",
+                        "migrationDbConfigFile": "config/db-migrate-database.json",
+                        "migrationsDir": "migrations/myshpdb",
+                        "migrationEnv": "myshpdb_sqlite3"
+                    }
+                },
+                {
+                    "parameters": {
+                        "command": "initConfig",
+                        "action": "resetSolrPasswords",
+                        "solrconfigbasepath": "dist/contrib/solr/server/solr"
+                    }
+                },
                 {
                     "parameters": {
                         "command": "initConfig",

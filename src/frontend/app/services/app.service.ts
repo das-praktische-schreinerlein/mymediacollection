@@ -10,6 +10,10 @@ import {PlatformService} from '@dps/mycms-frontend-commons/dist/angular-commons/
 import {FallbackHttpClient} from './fallback-http-client';
 import {DataMode} from '../../shared/commons/model/datamode.enum';
 import {ToastrService} from 'ngx-toastr';
+import {PDocDataStore} from '@dps/mycms-commons/dist/pdoc-commons/services/pdoc-data.store';
+import {StaticPagesDataService} from '@dps/mycms-commons/dist/pdoc-commons/services/staticpages-data.service';
+import {StaticPagesDataStore} from '@dps/mycms-commons/dist/pdoc-commons/services/staticpages-data.store';
+import {PDocHttpAdapter} from '@dps/mycms-commons/dist/pdoc-commons/services/pdoc-http.adapter';
 
 @Injectable()
 export class AppService extends GenericAppService {
@@ -20,6 +24,8 @@ export class AppService extends GenericAppService {
         staticPDocsFile: undefined,
         permissions: {
             adminWritable: environment.adminWritable,
+            pdocWritable: environment.pdocWritable,
+            pdocActionTagWritable: environment.pdocActionTagWritable,
             allowAutoPlay: environment.allowAutoPlay
         },
         components: {},
@@ -35,6 +41,8 @@ export class AppService extends GenericAppService {
         useAssetStoreUrls: environment.useAssetStoreUrls,
         permissions: {
             adminWritable: environment.adminWritable,
+            pdocWritable: environment.pdocWritable,
+            pdocActionTagWritable: environment.pdocActionTagWritable,
             allowAutoPlay: environment.allowAutoPlay
         },
         components: {},
@@ -50,6 +58,8 @@ export class AppService extends GenericAppService {
         staticPDocsFile: undefined,
         permissions: {
             adminWritable: environment.adminWritable,
+            pdocWritable: environment.pdocWritable,
+            pdocActionTagWritable: environment.pdocActionTagWritable,
             allowAutoPlay: environment.allowAutoPlay
         },
         components: {},
@@ -59,7 +69,9 @@ export class AppService extends GenericAppService {
         availableDataModes: environment.availableDataModes ? environment.availableDataModes : [DataMode.BACKEND]
     };
 
-    constructor(private pdocDataService: PDocDataService, @Inject(LOCALE_ID) private locale: string,
+    constructor(private pdocDataService: PDocDataService, private pdocDataStore: PDocDataStore,
+                private pagesDataService: StaticPagesDataService, private pagesDataStore: StaticPagesDataStore,
+                @Inject(LOCALE_ID) private locale: string,
                 private http: HttpClient, private commonRoutingService: CommonRoutingService,
                 private backendHttpClient: MinimalHttpBackendClient, private platformService: PlatformService,
                 private fallBackHttpClient: FallbackHttpClient, protected toastService: ToastrService) {
@@ -161,21 +173,36 @@ export class AppService extends GenericAppService {
                 return me.backendHttpClient.makeHttpRequest(httpConfig);
             }
         };
+        const pdocAdapter = new PDocHttpAdapter(options);
+
+        this.pdocDataStore.setAdapter('http', undefined, '', {});
+        this.pagesDataStore.setAdapter('http', undefined, '', {});
+
+        this.pagesDataService.clearLocalStore();
         this.pdocDataService.clearLocalStore();
 
         return new Promise<boolean>((resolve, reject) => {
-            me.backendHttpClient.makeHttpRequest({ method: 'get', url: options.basePath + 'pdoc/', withCredentials: true })
+            me.backendHttpClient.makeHttpRequest({ method: 'get', url: options.basePath + 'pages/', withCredentials: true })
                 .then(function onDocsLoaded(res: any) {
                     const docs: any[] = (res['data'] || res.json());
-                    me.pdocDataService.setWritable(true);
-                    return me.pdocDataService.addMany(docs);
+                    for (const doc of docs) {
+                        me.remapPDoc(doc);
+                    }
+
+                    me.pagesDataService.setWritable(true);
+                    return me.pagesDataService.addMany(docs);
                 }).then(function onDocsAdded(records: BaseEntityRecord[]) {
                     // console.log('initially loaded pdocs from server', records);
-                    me.pdocDataService.setWritable(false);
+                    me.pagesDataService.setWritable(false);
+                    me.pdocDataService.setWritable(me.appConfig.permissions.pdocWritable);
+
+                    me.pdocDataStore.setAdapter('http', pdocAdapter, '', {});
+
                     return resolve(true);
                 }).catch(function onError(reason: any) {
                     console.error('loading appdata failed:', reason);
-                    me.pdocDataService.setWritable(false);
+                    me.pagesDataService.setWritable(false);
+
                     return reject(false);
                 });
             });
@@ -183,10 +210,17 @@ export class AppService extends GenericAppService {
 
     initStaticData(): Promise<any> {
         const me = this;
-        this.pdocDataService.clearLocalStore();
+        this.pagesDataStore.setAdapter('http', undefined, '', {});
+
+        this.pagesDataService.clearLocalStore();
+
+        this.pagesDataService.setWritable(false);
+
         me.appConfig.permissions.adminWritable = false;
 
-        return  me.fallBackHttpClient.loadJsonPData(me.appConfig.staticPDocsFile, 'importStaticDataPDocsJsonP', 'pdocs')
+        const options = { };
+
+        return me.fallBackHttpClient.loadJsonPData(me.appConfig.staticPDocsFile, 'importStaticDataPDocsJsonP', 'pdocs')
             .then(function onPDocLoaded(data: any) {
                 if (data['pdocs']) {
                     return Promise.resolve(data['pdocs']);
@@ -194,19 +228,30 @@ export class AppService extends GenericAppService {
 
                 return Promise.reject('No static pdocs found');
             }).then(function onPDocParsed(docs: any[]) {
-                me.pdocDataService.setWritable(true);
-                return me.pdocDataService.addMany(docs);
+                me.pagesDataService.setWritable(true);
+                for (const doc of docs) {
+                    me.remapPDoc(doc);
+                }
+
+                return me.pagesDataService.addMany(docs);
             }).then(function onPDocsAdded(pdocs: BaseEntityRecord[]) {
                 console.log('initially loaded pdocs from assets', pdocs);
-                me.pdocDataService.setWritable(false);
 
+                me.pagesDataService.setWritable(false);
                 return Promise.resolve(true);
             }).catch(function onError(reason: any) {
                 console.error('loading appdata failed:', reason);
-                me.pdocDataService.setWritable(false);
+
+                me.pagesDataService.setWritable(false);
 
                 return Promise.reject(false);
             });
+    }
+
+    remapPDoc(doc: {}): void {
+        if (doc['key']) {
+            doc['id'] = doc['key'];
+        }
     }
 
 }

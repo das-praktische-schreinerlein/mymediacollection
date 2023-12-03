@@ -1,17 +1,17 @@
 import * as fs from 'fs';
-import {
-    CommonAdminCommand,
-    SimpleConfigFilePathValidationRule,
-    SimpleFilePathValidationRule
-} from '@dps/mycms-server-commons/dist/backend-commons/commands/common-admin.command';
+import {CommonAdminCommand} from '@dps/mycms-server-commons/dist/backend-commons/commands/common-admin.command';
 import {
     KeywordValidationRule,
     NumberValidationRule,
+    SimpleConfigFilePathValidationRule,
+    SimpleFilePathValidationRule,
     ValidationRule,
     WhiteListValidationRule
 } from '@dps/mycms-commons/dist/search-commons/model/forms/generic-validator.util';
 import {BackendConfigType} from '../modules/backend.commons';
 import {ViewerManagerModule} from '@dps/mycms-server-commons/dist/media-commons/modules/viewer-manager.module';
+import {PDocFileUtils} from '@dps/mycms-commons/dist/pdoc-commons/services/pdoc-file.utils';
+import path from 'path';
 
 export class MediaManagerCommand extends CommonAdminCommand {
     protected createValidationRules(): {[key: string]: ValidationRule} {
@@ -19,9 +19,12 @@ export class MediaManagerCommand extends CommonAdminCommand {
             action: new KeywordValidationRule(true),
             backend: new SimpleConfigFilePathValidationRule(true),
             srcFile: new SimpleFilePathValidationRule(false),
+            pdocFile: new SimpleFilePathValidationRule(false),
             exportDir: new SimpleFilePathValidationRule(false),
             exportName: new SimpleFilePathValidationRule(false),
             ignoreErrors: new NumberValidationRule(false, 1, 999999999, 10),
+            inlineProfile: new KeywordValidationRule(false),
+            outputFile: new SimpleFilePathValidationRule(false),
             parallel: new NumberValidationRule(false, 1, 999, 10),
             force: new KeywordValidationRule(false),
             skipCheckForExistingFilesInDataBase : new KeywordValidationRule(false),
@@ -31,13 +34,17 @@ export class MediaManagerCommand extends CommonAdminCommand {
 
     protected definePossibleActions(): string[] {
         return [
-            'generateHtmlViewerFileForExport', 'inlineDataOnViewerFile'
+            'setPDocsInViewerFile', 'generateHtmlViewerFileForExport', 'inlineDataOnViewerFile'
             ];
     }
 
     protected processCommandArgs(argv: {}): Promise<any> {
+        const me = this;
+
         // importDir and outputDir are used in CommonMediaManagerCommand too
-        argv['srcFile'] = this.normalizeCygwinPath(argv['srcFile']);
+        argv['srcFile'] = PDocFileUtils.normalizeCygwinPath(argv['srcFile']);
+        argv['pdocFile'] = PDocFileUtils.normalizeCygwinPath(argv['pdocFile']);
+        argv['outputFile'] = PDocFileUtils.normalizeCygwinPath(argv['outputFile']);
 
         const filePathConfigJson = argv['backend'];
         if (filePathConfigJson === undefined) {
@@ -45,17 +52,48 @@ export class MediaManagerCommand extends CommonAdminCommand {
         }
 
         const action = argv['action'];
+        const outputFile = argv['outputFile'];
         const backendConfig: BackendConfigType = JSON.parse(fs.readFileSync(filePathConfigJson, {encoding: 'utf8'}));
 
         let promise: Promise<any>;
 
         const srcFile = argv['srcFile'];
+        const pdocFile = argv['pdocFile'];
         const exportDir = argv['exportDir'];
         const exportName = argv['exportName'];
+        const inlineProfile = argv['inlineProfile'];
 
         const viewerManagerModule = new ViewerManagerModule();
 
         switch (action) {
+            case 'setPDocsInViewerFile':
+                if (srcFile === undefined) {
+                    console.error(action + ' missing parameter - usage: --srcFile SRCFILE', argv);
+                    promise = Promise.reject(action + ' missing parameter - usage: --srcFile SRCFILE');
+                    return promise;
+                }
+
+                if (pdocFile === undefined) {
+                    console.error(action + ' missing parameter - usage: --pdocFile PDOCFILE', argv);
+                    promise = Promise.reject(action + ' missing parameter - usage: --pdocFile PDOCFILE');
+                    return promise;
+                }
+
+                promise = viewerManagerModule.generateViewerHtmlFile(srcFile, [pdocFile],
+                    srcFile, 999999999, 'pdocs',
+                    function (html: string) {
+                        return html;
+                    },
+                    function (html: string, jsonPFileName: string) {
+                        return viewerManagerModule.jsonToJsTargetContentConverter(html, jsonPFileName,
+                            'importStaticDataPDocsJsonP');
+                    },
+                    function (html: string, jsonPFilePath: string) {
+                        return me.htmlPDocInlineFileConverter(html, jsonPFilePath,
+                            'staticPDocsFile');
+                    }
+                );
+                break;
             case 'generateHtmlViewerFileForExport':
                 if (exportDir === undefined) {
                     console.error(action + ' missing parameter - usage: --exportDir EXPORTDIR', argv);
@@ -96,11 +134,18 @@ export class MediaManagerCommand extends CommonAdminCommand {
                     return promise;
                 }
 
+                const targetFileName = outputFile !== undefined
+                    ? outputFile
+                    : srcFile
+
+                // TODO password for encryption
+
                 promise = viewerManagerModule.inlineDataOnViewerFile(
                     backendConfig.nodejsBinaryPath,
                     backendConfig.inlineJsPath,
                     srcFile,
-                    srcFile);
+                    targetFileName,
+                    inlineProfile);
 
                 break;
         }
@@ -108,14 +153,14 @@ export class MediaManagerCommand extends CommonAdminCommand {
         return promise;
     }
 
-    public normalizeCygwinPath(path: string): string {
-        if (!path) {
-            return path;
-        }
+    public htmlPDocInlineFileConverter(html: string, jsonPFilePath: string, dataFileConfigName: string): string {
+        const fileName = path.basename(jsonPFilePath);
+        html = html.replace(/<\/head>/g,
+            '\n  <script inlineexport type="text/javascript" src="' + fileName + '"></script>\n</head>');
+        const regExp = new RegExp(dataFileConfigName + '": ".*?"', 'g');
+        html = html.replace(regExp,
+            dataFileConfigName + '": "' + fileName + '"');
 
-        path = path.replace(/^\/cygdrive\/([a-z])\//g, '$1:/');
-
-        return path;
+        return html;
     }
-
 }

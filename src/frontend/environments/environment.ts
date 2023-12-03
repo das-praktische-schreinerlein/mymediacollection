@@ -11,6 +11,9 @@ export const environment: AppEnvironment = {
     production: false,
     assetsPathVersionSnippet: '',
     assetsPathVersionSuffix: '',
+    pdocWritable: true,
+    pdocActionTagWritable: true,
+    pdocEmptyDefaultSearchTypes: 'page',
     defaultSearchTypes: '',
     emptyDefaultSearchTypes: '',
     useAssetStoreUrls: false,
@@ -23,5 +26,5 @@ export const environment: AppEnvironment = {
     hideInternalDescLinks: false,
     hideInternalImages: false,
     startDataMode: DataMode.BACKEND,
-    availableDataModes: [DataMode.BACKEND]
+    availableDataModes: [DataMode.BACKEND, DataMode.STATIC]
 };

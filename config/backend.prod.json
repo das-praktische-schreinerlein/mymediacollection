@@ -1,5 +1,7 @@
 {
+    "profile": "prod",
     "filePathPDocJson": "config/pdocs.json",
+    "startPDocApi": false,
     "cacheConfig": {
     },
     "port": 4102,

@@ -1,0 +1,67 @@
+<nav class="navbar navbar-expand-sm navbar-light bg-light mdl-navigation hide-on-fullpage">
+    <button type="button" class="navbar-toggler navbar-toggler-right hidden-print" (click)="isExpanded = !isExpanded" [attr.aria-expanded]="!isExpanded" aria-controls="navbarContent">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand mdl-navigation__link" routerLink="/pages/start" routerLinkActive="active">
+        <img src="assets/images/banner.jpg" width="30" class="d-inline-block picture-thumbnail align-top img-navbar-banner">
+        <span>{{ 'nav.brand.appName' | translate }}</span>
+    </a>
+
+    <div class="navbar-collapse collapse hidden-print" id="navbarContent" [ngbCollapse]="!isExpanded">
+        <ul class="nav navbar-nav" role="menu">
+            <ng-container *ngIf="sections !== undefined && sections.length > 0">
+                <ng-container *ngFor="let menuSection of sections">
+                    <li class="nav-item">
+                        <a class="nav-link mdl-navigation__link" routerLink="/pages/{{menuSection.id}}" routerLinkActive="active">{{menuSection.name}}</a>
+                    </li>
+                    <li class="nav-item dropdown" ngbDropdown>
+                        <a class="nav-link {{ getSubSections(menuSection).length > 0 ? 'dropdown-toggle' : ''}} " ngbDropdownToggle id="navbarDropdownMenuLink{{menuSection.id}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+
+                        <ul *ngIf="getSubSections(menuSection).length > 0" class="dropdown-menu dropdown-menu-left" role="menu" ngbDropdownMenu attr.aria-labelledby="navbarDropdownMenuLink{{menuSection.id}}">
+
+                            <li class="dropdown-item {{menuSection.type}}"><a class="nav-link mdl-navigation__link" title="{{menuSection.teaser}}" routerLink="/pages/{{menuSection.id}}/" routerLinkActive="active">{{menuSection.name}}</a></li>
+
+                            <ng-container *ngFor="let section of getSubSections(menuSection)">
+                                <ng-container [ngSwitch]="section.type">
+                                    <ng-container *ngSwitchCase="'SectionOverviewPage'">
+                                        <div class="dropdown-divider"></div>
+                                        <li class="dropdown-item {{section.type}}"><a class="nav-link mdl-navigation__link" title="{{section.teaser}}" routerLink="/pages/{{section.id}}/" routerLinkActive="active">{{section.name}}</a>
+                                            <ul>
+                                                <ng-container *ngFor="let subSection of getSubSections(section)">
+                                                    <li class="dropdown-item"><a class="nav-link mdl-navigation__link" title="{{subSection.teaser}}" routerLink="/pages/{{subSection.id}}/" routerLinkActive="active">{{subSection.name}}</a></li>
+                                                </ng-container>
+                                            </ul>
+                                        </li>
+                                    </ng-container>
+                                    <ng-container *ngSwitchDefault>
+                                        <li class="dropdown-item {{section.type}}"><a class="nav-link mdl-navigation__link" title="{{section.teaser}}" routerLink="/pages/{{section.id}}/" routerLinkActive="active">{{section.name}}</a></li>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                        </ul>
+                    </li>
+                </ng-container>
+            </ng-container>
+            <li class="nav-item">
+                <a class="nav-link mdl-navigation__link" routerLink="/pages/impress" routerLinkActive="active" i18n="link impress navBar|Link impress navBar@@a.navBar.impress">Impressum/Datenschutz</a>
+            </li>
+
+            <li class="nav-item dropdown" ngbDropdown *ngIf="availableDataModes.length > 1">
+                <a class="nav-link dropdown-toggle" ngbDropdownToggle id="navbarDropdownMenuLinkSettings" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings</a>
+                <ul class="dropdown-menu dropdown-menu-left" attr.aria-labelledby="navbarDropdownMenuLinkSettings" role="menu" ngbDropdownMenu>
+                    <li class="dropdown-item">
+                        <div class="navbar-right"><app-browser-onoffline></app-browser-onoffline></div>
+            </li>
+                    <div class="dropdown-divider"></div>
+                    <li class="dropdown-item"><app-switch-onoffline></app-switch-onoffline></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<nav class="navbar-fullpage show-on-fullpage-block">
+    <button type="button" class="" (click)="doEndFullPage()">
+        <span>&#x25A3;</span>
+    </button>
+</nav>

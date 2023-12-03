@@ -1,0 +1,130 @@
+/* You can add global styles to this file, and also import other style files */
+
+/*******************
+ * Base Style Elements
+ *******************/
+body {
+    background: #fcebbf;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJod…EiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(left, #fcebbf 0%, #ffffff 49%, #fcebbf 100%);
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#fcebbf), color-stop(49%,#ffffff), color-stop(100%,#fcebbf));
+    background: -webkit-linear-gradient(left, #fcebbf 0%,#ffffff 49%,#fcebbf 100%);
+    background: -o-linear-gradient(left, #fcebbf 0%,#ffffff 49%,#fcebbf 100%);
+    background: -ms-linear-gradient(left, #fcebbf 0%,#ffffff 49%,#fcebbf 100%);
+    background: linear-gradient(to right, #fcebbf 0%,#ffffff 49%,#fcebbf 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcebbf', endColorstr='#fcebbf',GradientType=1 );
+    overflow-y: scroll;
+}
+
+.modal-dialog {
+    max-width: 800px;
+}
+
+.dropdown-toggle {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/*******************
+ * Common Style Elements
+ *******************/
+.album-dropzone{
+    max-height: 40px;
+}
+.album-dropzone file-drop, .album-dropzone #dropZone, .album-dropzone #dropZone > div {
+    max-height: inherit;
+}
+
+.album-dropzone:hover, .album-dropzone #dropZone:hover, .album-dropzone #dropZone > div:hover {
+    max-height: 100px;
+}
+
+/**
+ * human readable filters
+ */
+div.humanReadableSearchFilter span.filterValue {
+    font-weight: bold;
+}
+
+/**
+ * highlights high-rated items
+ */
+.list-item-persrate-0 {
+}
+.list-item-persrate-1 {
+}
+.list-item-persrate-2 {
+}
+.list-item-persrate-3 {
+}
+.list-item-persrate-4 {
+    border: 3px solid gold !IMPORTANT;
+    border-color: gold !IMPORTANT;
+}
+.list-item-persrate-5 {
+    border: 3px solid gold;
+    border-color: gold !IMPORTANT;
+    background: gold;
+}
+
+/*******************
+ * Images
+ *******************/
+img.picture-thumbnail {
+    border-radius: 5px;
+}
+img.picture, img.picture-thumbnail-big, img.picture-small, img.picture-big, video.picture-big, img.picture-teaser  {
+    border-radius: 10px;
+}
+
+img.picture-small, img.picture-big, video.picture-big , img.picture-teaser {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div.leaflet-div-icon-area, div.leaflet-div-icon-end, div.leaflet-div-icon-start, div.leaflet-div-icon-point {
+    border: 2px solid #8CACD3;
+    border-radius: 2px;
+    padding: 2px !IMPORTANT;
+    background-color: white;
+    margin: 2px !IMPORTANT;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    height: 25px !IMPORTANT;
+    white-space: nowrap;
+    width: 100px !IMPORTANT;
+}
+
+/*******************
+ * Container
+ *******************/
+div.leaflet-container {
+    border-radius: 10px;
+}
+
+/*******************
+ * Cookie-law
+ *******************/
+.cookie-law-wrapper {
+    max-width: 100vw !important;
+}
+
+a.dismiss::after {
+    content: "OK" !IMPORTANT;
+}
+a.dismiss > svg {
+    display: none !IMPORTANT;
+}
+
+
+
+/*******************
+ * Extended-Objects
+ *******************/
+app-cdoc-extended-object-properties div.label {
+    min-width: 15px !IMPORTANT;
+}
+app-cdoc-extended-object-properties div.value {
+    min-width: 15px !IMPORTANT;
+}

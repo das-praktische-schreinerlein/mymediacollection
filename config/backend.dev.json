@@ -1,0 +1,10 @@
+{
+    "filePathPDocJson": "config/pdocs.json",
+    "nodejsBinaryPath": "node",
+    "inlineJsPath": "devtools/create-allinone-html.js",
+    "cacheConfig": {
+    },
+    "port": 4100,
+    "bindIp": "127.0.0.1",
+    "corsOrigin": true
+}

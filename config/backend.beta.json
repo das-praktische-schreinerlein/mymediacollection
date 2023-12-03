@@ -1,0 +1,8 @@
+{
+    "filePathPDocJson": "config/pdocs.json",
+    "cacheConfig": {
+    },
+    "port": 4101,
+    "bindIp": "127.0.0.1",
+    "corsOrigin": true
+}

@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="a.navBar.search" datatype="html">
+        <source>Suche</source>
+        <target>Search</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/components/navbar/navbar.component.ts</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+        <note priority="1" from="description">Link search navBar</note>
+        <note priority="1" from="meaning">link search navBar</note>
+      </trans-unit>
+      <trans-unit id="a.navBar.sections" datatype="html">
+        <source>Themen</source>
+        <target>Sections</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/components/navbar/navbar.component.ts</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+        <note priority="1" from="description">Link sections navBar</note>
+        <note priority="1" from="meaning">link sections navBar</note>
+      </trans-unit>
+      <trans-unit id="heading.errorpage.alert" datatype="html">
+        <source>Es ist ein unglaublich schwerer Fehler aufgetreten. <x id="START_LINK" ctype="x-a"/>Am Besten später noch einmal probieren<x id="CLOSE_LINK" ctype="x-a"/> :-(</source>
+        <target>There has been an incredibly serious error. <x id="START_LINK" ctype="x-a"/> Best to try again later <x id="CLOSE_LINK" ctype="x-a"/> :-(</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/components/errorpage/errorpage.component.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+        <note priority="1" from="description">Heading alert errorpage</note>
+        <note priority="1" from="meaning">heading alert errorpage</note>
+      </trans-unit>
+      <trans-unit id="accordion.details.mdoc.title" datatype="html">
+        <source>Details</source>
+        <target>details</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/mdoc/components/mdoc-showpage/mdoc-showpage.component.ts</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-mdoc/components/mdoc-list-item/mdoc-list-item.component.ts</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+        <note priority="1" from="description">Title for details accordion</note>
+        <note priority="1" from="meaning">title accordion details</note>
+      </trans-unit>
+      <trans-unit id="a.show.mdoc.back2search" datatype="html">
+        <source>Back to Search</source>
+        <target>Back to Search</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/mdoc/components/mdoc-showpage/mdoc-showpage.component.ts</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+        <note priority="1" from="description">Linktext back to search mdoc</note>
+        <note priority="1" from="meaning">link back2search mdoc</note>
+      </trans-unit>
+      <trans-unit id="accordion.map.mdoc.title" datatype="html">
+        <source>Map</source>
+        <target>map</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-mdoc/components/mdoc-list-item/mdoc-list-item.component.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-mdoc/components/mdoc-list-item/mdoc-list-item.component.ts</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+        <note priority="1" from="description">Title for map accordion</note>
+        <note priority="1" from="meaning">title accordion map</note>
+      </trans-unit>
+      <trans-unit id="button.listitemaction.mdoc.show" datatype="html">
+        <source>Show</source>
+        <target>show</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-mdoc/components/mdoc-list-item/mdoc-list-item.component.ts</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-mdoc/components/mdoc-list-item/mdoc-list-item.component.ts</context>
+          <context context-type="linenumber">77</context>
+        </context-group>
+        <note priority="1" from="description">Buttontext to listitemaction:show mdoc</note>
+        <note priority="1" from="meaning">button listitemaction show mdoc</note>
+      </trans-unit>
+      <trans-unit id="placeholder.form.mdoc.name" datatype="html">
+        <source>name</source>
+        <target>name</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-mdoc/components/mdoc-editform/mdoc-editform.component.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-mdoc/components/mdoc-createform/mdoc-createform.component.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+        <note priority="1" from="description">Placeholder for name</note>
+        <note priority="1" from="meaning">name placeholder</note>
+      </trans-unit>
+      <trans-unit id="placeholder.form.mdoc.desc" datatype="html">
+        <source>description</source>
+        <target>description</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-mdoc/components/mdoc-editform/mdoc-editform.component.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-mdoc/components/mdoc-createform/mdoc-createform.component.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <note priority="1" from="description">Placeholder for desc</note>
+        <note priority="1" from="meaning">desc placeholder</note>
+      </trans-unit>
+      <trans-unit id="button.form.mdoc.edit" datatype="html">
+        <source>Save</source>
+        <target>save</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-mdoc/components/mdoc-editform/mdoc-editform.component.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <note priority="1" from="description">Buttontext to edit mdoc</note>
+        <note priority="1" from="meaning">button edit mdoc</note>
+      </trans-unit>
+      <trans-unit id="label.searchform.mdoc.where" datatype="html">
+        <source>Where:</source>
+        <target>where:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-mdoc/components/mdoc-searchform/mdoc-searchform.component.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <note priority="1" from="description">Label for filter: where</note>
+        <note priority="1" from="meaning">where label</note>
+      </trans-unit>
+      <trans-unit id="label.searchform.mdoc.nearby" datatype="html">
+        <source>Nahe:</source>
+        <target>near by:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-mdoc/components/mdoc-searchform/mdoc-searchform.component.ts</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+        <note priority="1" from="description">Label for filter: nearby</note>
+        <note priority="1" from="meaning">nearby label</note>
+      </trans-unit>
+      <trans-unit id="placeholder.searchform.mdoc.nearby" datatype="html">
+        <source>Nahe</source>
+        <target>near by</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-mdoc/components/mdoc-searchform/mdoc-searchform.component.ts</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+        <note priority="1" from="description">Placeholder for nearby</note>
+        <note priority="1" from="meaning">nearby placeholder</note>
+      </trans-unit>
+      <trans-unit id="label.searchform.mdoc.nearbyDistance" datatype="html">
+        <source>Umkreis:</source>
+        <target>distance:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-mdoc/components/mdoc-searchform/mdoc-searchform.component.ts</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+        <note priority="1" from="description">Label for filter: nearbyDistance</note>
+        <note priority="1" from="meaning">nearbyDistance label</note>
+      </trans-unit>
+      <trans-unit id="placeholder.searchform.mdoc.nearbyDistance" datatype="html">
+        <source>Umkreis in km</source>
+        <target>distance in km</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-mdoc/components/mdoc-searchform/mdoc-searchform.component.ts</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+        <note priority="1" from="description">Placeholder for nearbyDistance</note>
+        <note priority="1" from="meaning">nearbyDistance placeholder</note>
+      </trans-unit>
+      <trans-unit id="label.searchform.mdoc.when" datatype="html">
+        <source>When:</source>
+        <target>when:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-mdoc/components/mdoc-searchform/mdoc-searchform.component.ts</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+        <note priority="1" from="description">Label for filter: when</note>
+        <note priority="1" from="meaning">when label</note>
+      </trans-unit>
+      <trans-unit id="label.searchform.mdoc.fulltext" datatype="html">
+        <source>Fulltext:</source>
+        <target>fulltext:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-mdoc/components/mdoc-searchform/mdoc-searchform.component.ts</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+        <note priority="1" from="description">Label for filter: fulltext</note>
+        <note priority="1" from="meaning">fulltext label</note>
+      </trans-unit>
+      <trans-unit id="placeholder.searchform.mdoc.fulltext" datatype="html">
+        <source>Suchtext</source>
+        <target>searchtext</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-mdoc/components/mdoc-searchform/mdoc-searchform.component.ts</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+        <note priority="1" from="description">Placeholder for fulltext</note>
+        <note priority="1" from="meaning">fulltext placeholder</note>
+      </trans-unit>
+      <trans-unit id="label.searchform.mdoc.what" datatype="html">
+        <source>What:</source>
+        <target>what:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-mdoc/components/mdoc-searchform/mdoc-searchform.component.ts</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+        <note priority="1" from="description">Label for filter: what</note>
+        <note priority="1" from="meaning">what label</note>
+      </trans-unit>
+      <trans-unit id="label.searchform.mdoc.type" datatype="html">
+        <source>Types:</source>
+        <target>types:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-mdoc/components/mdoc-searchform/mdoc-searchform.component.ts</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+        <note priority="1" from="description">Label for filter: type</note>
+        <note priority="1" from="meaning">type label</note>
+      </trans-unit>
+      <trans-unit id="button.searchform.mdoc.search" datatype="html">
+        <source>Search</source>
+        <target>Let's Roll</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-mdoc/components/mdoc-searchform/mdoc-searchform.component.ts</context>
+          <context context-type="linenumber">65</context>
+        </context-group>
+        <note priority="1" from="description">Buttontext to search mdoc</note>
+        <note priority="1" from="meaning">button search mdoc</note>
+      </trans-unit>
+      <trans-unit id="button.form.mdoc.create" datatype="html">
+        <source>Create</source>
+        <target>create</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-mdoc/components/mdoc-createform/mdoc-createform.component.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <note priority="1" from="description">Buttontext to create mdoc</note>
+        <note priority="1" from="meaning">button create mdoc</note>
+      </trans-unit>
+      <trans-unit id="text.search.mdoc.result" datatype="html">
+        <source>{VAR_PLURAL, plural, =0 {no result} =1 {one result} other {<x id="START_TAG_STRONG" ctype="x-strong"/><x id="INTERPOLATION"/><x id="CLOSE_TAG_STRONG" ctype="x-strong"/> results} }</source>
+        <target>{VAR_PLURAL, plural, =0 {no result :-(} =1 {EXACTLY one result :-)} other {UiUiUi <x id="START_TAG_STRONG" ctype="x-strong"/><x id="INTERPOLATION"/><x id="CLOSE_TAG_STRONG" ctype="x-strong"/> results :-)} }</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-mdoc/components/mdoc-list-header/mdoc-list-header.component.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <note priority="1" from="description">Text for searchresult mdoc</note>
+        <note priority="1" from="meaning">searchresult text mdoc</note>
+      </trans-unit>
+      <trans-unit id="label.pageHeader.cdoc.sort" datatype="html">
+        <source>Sort:</source>
+        <target> </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-mdoc/components/mdoc-list-header/mdoc-list-header.component.ts</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+        <note priority="1" from="description">Label for header: sort</note>
+        <note priority="1" from="meaning">sort label</note>
+      </trans-unit>
+      <trans-unit id="label.pageHeader.cdoc.perPage" datatype="html">
+        <source>per Page:</source>
+        <target> </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-mdoc/components/mdoc-list-header/mdoc-list-header.component.ts</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+        <note priority="1" from="description">Label for header: perPage</note>
+        <note priority="1" from="meaning">perPage label</note>
+      </trans-unit>
+      <trans-unit id="label.pageHeader.cdoc.listLayout" datatype="html">
+        <source>Layout:</source>
+        <target> </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-mdoc/components/mdoc-list-header/mdoc-list-header.component.ts</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+        <note priority="1" from="description">Label for header: listLayout</note>
+        <note priority="1" from="meaning">listLayout label</note>
+      </trans-unit>
+      <trans-unit id="label.switchonoffline.appstate" datatype="html">
+        <source>App:</source>
+        <target>app:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/shared/angular-commons/components/switch-onoffline/switch-onoffline.component.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+        <note priority="1" from="description">label appstate switchonoffline</note>
+        <note priority="1" from="meaning">label appstate switchonoffline</note>
+      </trans-unit>
+      <trans-unit id="text.browseronoffline.network" datatype="html">
+        <source>Network:</source>
+        <target>network:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/shared/angular-commons/components/show-browseronoffline/show-browseronoffline.component.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+        <note priority="1" from="description">Text networkstate browseronoffline</note>
+        <note priority="1" from="meaning">text networkstate browseronoffline</note>
+      </trans-unit>
+      <trans-unit id="a.sectionPage.2search" datatype="html">
+        <source>[Also direkt Los]</source>
+        <target>[Let's search]</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/sections/components/sectionpage/section-page.component.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+        <note priority="1" from="description">Linktext to search sectionPage</note>
+        <note priority="1" from="meaning">link 2search sectionPage</note>
+      </trans-unit>
+      <trans-unit id="text.sectionPage.searchOr" datatype="html">
+        <source>oder</source>
+        <target>or</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/sections/components/sectionpage/section-page.component.ts</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+        <note priority="1" from="description">Text to search-or sectionPage</note>
+        <note priority="1" from="meaning">text search-or sectionPage</note>
+      </trans-unit>
+      <trans-unit id="text.sectionPage.pokeAround" datatype="html">
+        <source>Fröhliches Stöbern :-)</source>
+        <target>Let'soke around</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/sections/components/sectionpage/section-page.component.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+        <note priority="1" from="description">Text to pokeAround sectionPage</note>
+        <note priority="1" from="meaning">text pokeAround sectionPage</note>
+      </trans-unit>
+      <trans-unit id="a.pdocListItem.show" datatype="html">
+        <source>mehr...</source>
+        <target>show more...</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-pdoc/components/pdoc-list-item/pdoc-list-item.component.ts</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-pdoc/components/pdoc-list-item-flat/pdoc-list-item-flat.component.ts</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">D:/Projekte/mytourbook/src/frontend/app/shared-pdoc/components/pdoc-list-item-flat/pdoc-list-item-flat.component.ts</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+        <note priority="1" from="description">Link show-pdoc listitem</note>
+        <note priority="1" from="meaning">link pdoc listitem</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

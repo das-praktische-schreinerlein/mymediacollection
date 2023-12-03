@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "sourceMap": false,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "lib": [
+      "es2016",
+      "dom"
+    ],
+    "outDir": "../out-tsc/frontend",
+    "module": "commonjs",
+    "baseUrl": "",
+    "types": []
+  },
+  // Add "angularCompilerOptions" with the AppServerModule you wrote
+  // set as the "entryModule".
+  "angularCompilerOptions": {
+      "preserveWhitespaces": true,
+      "entryModule": "app/app.server.module#AppServerModule"
+  },
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts"
+  ]
+}

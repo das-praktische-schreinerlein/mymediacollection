@@ -1,0 +1,8 @@
+{
+    "/mycms-frontend-devtools/*": {
+        "target": "http://localhost:4201/",
+        "secure": false,
+        "logLevel": "debug",
+        "pathRewrite": {"^/mycms-frontend-devtools" : ""}
+    }
+}

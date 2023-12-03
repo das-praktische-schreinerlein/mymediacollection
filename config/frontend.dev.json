@@ -1,0 +1,7 @@
+{
+    "port": 4001,
+    "bindIp": "127.0.0.1",
+    "cacheFolder": "cache/myshpdev/",
+    "redirectFileJson": "config/redirects.dev.json",
+    "redirectOnlyCached": false
+}

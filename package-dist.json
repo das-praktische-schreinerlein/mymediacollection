@@ -1,6 +1,6 @@
 {
   "name": "mysimplehomepage",
-  "version": "4.4.0",
+  "version": "5.0.0",
   "license": "Apache-2.0",
   "angular-cli": {},
   "scripts": {
@@ -45,7 +45,7 @@
     "redis": "3.1.2"
   },
   "dependencies": {
-    "axios": "0.19.2",
+    "axios": "0.22.0",
     "db-migrate": "0.11.13",
     "db-migrate-sqlite3": "0.4.0",
     "inline-source": "7.2.0",

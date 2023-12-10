@@ -4,6 +4,14 @@ import {DnsBLModule} from '@dps/mycms-server-commons/dist/server-commons/dnsbl.m
 import {FirewallModule} from '@dps/mycms-server-commons/dist/server-commons/firewall.module';
 import {PDocDataService} from '@dps/mycms-commons/dist/pdoc-commons/services/pdoc-data.service';
 import {DataCacheModule} from '@dps/mycms-server-commons/dist/server-commons/datacache.module';
+import {VideoServerModule} from './modules/video-server.module';
+import {AudioServerModule} from './modules/audio-server.module';
+import {MediaDocServerModule} from './modules/mdoc-server.module';
+import {MediaDocDataServiceModule} from './modules/mdoc-dataservice.module';
+import {MediaDocDataService} from './shared/mdoc-commons/services/mdoc-data.service';
+import {MediaDocWriterServerModule} from './modules/mdoc-writer-server.module';
+import {MediaDocPlaylistServerModule} from './modules/mdoc-playlist-server.module';
+import {AssetsServerModule} from './modules/assets-server.module';
 import {CommonServerConfigType} from '@dps/mycms-server-commons/dist/server-commons/server.commons';
 import {BackendConfigType} from './modules/backend.commons';
 import {PDocWriterServerModule} from '@dps/mycms-server-commons/dist/pdoc-backend-commons/modules/pdoc-writer-server.module';
@@ -41,6 +49,11 @@ export class ServerModuleLoader {
         ConfigureServerModule.configureDefaultErrorHandler(app);
     }
 
+    public static loadAdditionalModules(app, serverConfig: ServerConfig, cache: DataCacheModule) {
+        ServerModuleLoader.loadModuleMDoc(app, serverConfig, cache);
+        ServerModuleLoader.loadModulePDoc(app, serverConfig, cache);
+    }
+
     public static loadModulePages(app, serverConfig: ServerConfig, cache: DataCacheModule) {
         const markdownService = new MarkdownService(DefaultOptions.getDefault(), MarkdownDefaultExtensions);
         const pagesDataServiceDE: StaticPagesDataService = PagesDataserviceModule.getDataService('pdocSolrDE',
@@ -70,12 +83,51 @@ export class ServerModuleLoader {
     public static isServerWritable(serverConfig: ServerConfig) {
         const pdocWritable = serverConfig.backendConfig.pdocWritable === true
             || <any>serverConfig.backendConfig.pdocWritable === 'true';
+        const mdocWritable = serverConfig.backendConfig.mdocWritable === true
+            || <any>serverConfig.backendConfig.mdocWritable === 'true';
 
-        return pdocWritable;
+        return pdocWritable || mdocWritable;
     }
 
-    public static loadAdditionalModules(app, serverConfig: ServerConfig, cache: DataCacheModule) {
-        ServerModuleLoader.loadModulePDoc(app, serverConfig, cache);
+    public static loadModuleMDoc(app, serverConfig: ServerConfig, cache: DataCacheModule) {
+        const mdocWritable = serverConfig.backendConfig.mdocWritable === true || <any>serverConfig.backendConfig.mdocWritable === 'true';
+        const apiAudioServerEnabled = serverConfig.backendConfig.apiAudioServerEnabled === true
+            || <any>serverConfig.backendConfig.apiAudioServerEnabled === 'true';
+        const apiImageServerEnabled = serverConfig.backendConfig.apiImageServerEnabled === true
+            || <any>serverConfig.backendConfig.apiImageServerEnabled === 'true';
+        const apiVideoServerEnabled = serverConfig.backendConfig.apiVideoServerEnabled === true
+            || <any>serverConfig.backendConfig.apiVideoServerEnabled === 'true';
+
+        // configure dataservices
+        const mdocDataService: MediaDocDataService = MediaDocDataServiceModule.getDataService('mdocSolr',
+            serverConfig.backendConfig);
+
+        // add routes
+        const mdocServerModule = MediaDocServerModule.configureRoutes(app, serverConfig.apiDataPrefix,
+            mdocDataService, cache, serverConfig.backendConfig);
+        if (mdocWritable) {
+            MediaDocWriterServerModule.configureRoutes(app, serverConfig.apiDataPrefix, mdocServerModule);
+        }
+
+        if (apiAudioServerEnabled) {
+            AudioServerModule.configureStaticAudioRoutes(app, serverConfig.apiPublicPrefix, serverConfig.backendConfig);
+            AudioServerModule.configureStoredAudioRoutes(app, serverConfig.apiPublicPrefix, serverConfig.backendConfig,
+                serverConfig.firewallConfig.routerErrorsConfigs['digifotos'].file, serverConfig.filePathErrorDocs);
+        }
+
+        if (apiImageServerEnabled) {
+            AssetsServerModule.configureStaticPictureRoutes(app, serverConfig.apiPublicPrefix, serverConfig.backendConfig);
+            AssetsServerModule.configureStoredPictureRoutes(app, serverConfig.apiPublicPrefix, serverConfig.backendConfig,
+                serverConfig.firewallConfig.routerErrorsConfigs['digifotos'].file, serverConfig.filePathErrorDocs);
+        }
+
+        if (apiVideoServerEnabled) {
+            VideoServerModule.configureStaticVideoRoutes(app, serverConfig.apiPublicPrefix, serverConfig.backendConfig);
+            VideoServerModule.configureStoredVideoRoutes(app, serverConfig.apiPublicPrefix, serverConfig.backendConfig,
+                serverConfig.firewallConfig.routerErrorsConfigs['digifotos'].file, serverConfig.filePathErrorDocs);
+        }
+
+        MediaDocPlaylistServerModule.configureRoutes(app, serverConfig.apiDataPrefix, mdocDataService, serverConfig.backendConfig);
     }
 
 }

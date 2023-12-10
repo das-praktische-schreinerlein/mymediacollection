@@ -10,24 +10,30 @@ function dofail {
 }
 
 # check parameters
-if [ "$#" -lt 2 ]; then
-    dofail "USAGE: generateViewerFileForStaticData.sh EXPORTDIR EXPORTNAME\nFATAL: requires EXPORTDIR EXPORTNAME as parameters 'import-XXXX'" 1
+if [ "$#" -lt 3 ]; then
+    dofail "USAGE: generateViewerFileForStaticData.sh EXPORTDIR DATAFILES EXPORTNAME\nFATAL: requires EXPORTDIR DATAFILES EXPORTNAME as parameters 'import-XXXX'" 1
     exit 1
 fi
 EXPORTDIR=$1
-EXPORTNAME=$2
+DATAFILES=$2
+EXPORTNAME=$3
 
 source ${SCRIPTPATH}/configure-environment.bash
 
-VIEWERSRC=${SCRIPTPATH}/../dist/static/myshpviewer/de/index.viewer.full.html
+VIEWERSRC=${SCRIPTPATH}/../dist/static/mymmviewer/de/index.viewer.full.html
 
 if [ ! -d "${EXPORTDIR}" ]; then
     dofail "USAGE: generateViewerFileForStaticData.sh EXPORTDIR\nFATAL: $EXPORTDIR must exists" 1
     exit 1
 fi
 
-echo "start - generate ${EXPORTDIR}/${EXPORTNAME}.html"
-cd ${MYCMS}
+if [ "${DATAFILES}" == "" ]; then
+    dofail "USAGE: prepareViewerFileForStaticData.sh DATAFILES\nFATAL: DATAFILES must defined" 1
+    exit 1
+fi
+
+echo "start - generate ${EXPORTDIR}/${EXPORTNAME}.html for ${DATAFILES}"
+cd ${MYMM}
 node dist/backend/serverAdmin.js\
      --adminclibackend ${CONFIG_BASEDIR}adminCli.dev.json\
      --backend ${CONFIG_BASEDIR}backend.dev.json\
@@ -37,6 +43,7 @@ node dist/backend/serverAdmin.js\
      --exportName ${EXPORTNAME}\
      --exportDir ${EXPORTDIR}\
      --srcFile ${VIEWERSRC}\
+     --srcFiles ${DATAFILES}\
      --debug 1
 
 echo "inline all ${EXPORTDIR}/${EXPORTNAME}.html"
@@ -49,4 +56,4 @@ node dist/backend/serverAdmin.js\
      --debug 1
 cd ${CWD}
 
-echo "done - generate ${EXPORTDIR}/${EXPORTNAME}.html"
+echo "done - generate ${EXPORTDIR}/${EXPORTNAME}.html for ${DATAFILES}"

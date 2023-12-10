@@ -1,6 +1,6 @@
 {
-  "name": "MySimpleHomePage",
-  "short_name": "MySHP",
+  "name": "MyMediaCollection",
+  "short_name": "MyMM",
     "icons": [
         {
             "src": "assets/icons/android-chrome-36x36.png",

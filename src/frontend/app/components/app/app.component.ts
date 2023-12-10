@@ -21,7 +21,13 @@ import {PdfPrintService} from '@dps/mycms-frontend-commons/dist/angular-commons/
 })
 @Injectable()
 export class AppComponent extends AbstractAppComponent {
-    title = 'MySimpleHomePage';
+    showLoadingSpinner = true;
+    title = 'MyMediaCollection';
+    showLaw = false;
+    printAvailable: true;
+    pdfPrintAvailable: true;
+    hideCopyrightFooter = environment.hideCopyrightFooter;
+    cookieLawSeenName = environment.cookieLawSeenName;
 
     constructor(appService: GenericAppService, toastr: ToastrService,
                 translate: TranslateService, router: Router, @Inject(LOCALE_ID) locale: string,

@@ -2,7 +2,7 @@
     "profile": "prod",
     "port": 4003,
     "bindIp": "127.0.0.1",
-    "cacheFolder": "cache/myshp/",
+    "cacheFolder": "cache/mymm/",
     "redirectFileJson": "config/redirects.prod.json",
     "redirectOnlyCached": false
 }

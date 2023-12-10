@@ -1,0 +1,43 @@
+.sectionpage-stacked-left-content-container {
+    width: 73%;
+    display: inline-block;
+}
+.sectionpage-stacked-sidebar-container {
+    width: 25%;
+    float: right
+}
+
+.hint_tosearch, .hint_tostoebern {
+    width: 100%;
+    text-align: center;
+    font-size: large;
+    font-weight: bolder;
+}
+p {
+    width: 100%;
+    text-align: center;
+}
+div.app-pdoc-list {
+    padding: 5px;
+}
+
+table.table-dashboard {
+    width: 100%;
+}
+table.table-dashboard, table.table-dashboard th, table.table-dashboard td {
+    border: lightgray solid 1px;
+    text-align: center;
+}
+table.table-dashboard th {
+    background: #dee9ef;
+}
+table.table-dashboard th:first-child, table.table-dashboard td:first-child {
+    width: 250px;
+}
+
+.dashboardcolumn-available {
+}
+
+.dashboardcolumn-unavailable {
+    background: linear-gradient( to top left, white 48%, #eceaea, white 52% );
+}

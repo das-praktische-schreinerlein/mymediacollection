@@ -1,0 +1,76 @@
+<ng-container *ngIf="listItem.currentRecord !== undefined" [ngSwitch]="true">
+    <div class="row mdoc-list-item-flat">
+        <a [name]="listItem.currentRecord.id"></a>
+        <ng-container [ngSwitch]="listItem.currentRecord.type">
+            <ng-container *ngSwitchCase="'GENRE'">
+                <div class="col-10 layout-big">
+                    <h4 class="listItem.currentRecord-genre">
+                        <input type="checkbox" *ngIf="isMultiActionTagSelected()"
+                               [disabled]="isMultiActionAvailableForRecord()"
+                               [checked]="isMultiActionSelectedForRecord()"
+                               (click)="onChangeMultiActionForRecord($event)">
+                        {{listItem.currentRecord.genre }}</h4>
+                </div>
+                <div class="col-2 layout-big">
+                    <div class="card-action-buttons align-bottom btn-group" role="group" aria-label="Actions">
+                        <button class="show btn-navigation" (click)="submitShow(listItem.currentRecord)" i18n="button listitemaction show mdoc|Buttontext to listitemaction:show mdoc@@button.listitemaction.mdoc.show">Show</button>
+                    </div>
+                    <app-mdoc-action [record]="listItem.currentRecord" [type]="'actionTagsSmall'" (actionTagEvent)="onActionTagEvent($event)"></app-mdoc-action>
+                    <app-cdoc-extended-object-properties [extendedObjectProperties]="listItem.currentRecord.mdocextendedobjectproperties"
+                                                         [categories]="['ENTITYCOUNT']"
+                                                         [profile]="'list-item-flat-big'" class="float-right"></app-cdoc-extended-object-properties>
+                </div>
+            </ng-container>
+            <ng-container *ngSwitchDefault="">
+                <div class="col-2 layout-big">
+                    <div class="fx-bg-type">
+                        <h6 class="listItem.currentRecord-subtype fx-bg-type">
+                            {{listItem.currentRecord.type | translate }} - {{listItem.currentRecord.subtype | translate }}
+                            <i>{{listItem.currentRecord.genre }}</i></h6>
+                    </div>
+                    <h4 class="listItem.currentRecord-artist">
+                        <input type="checkbox" *ngIf="isMultiActionTagSelected()"
+                               [disabled]="isMultiActionAvailableForRecord()"
+                               [checked]="isMultiActionSelectedForRecord()"
+                               (click)="onChangeMultiActionForRecord($event)">
+                        {{listItem.currentRecord.artist }}
+                    </h4>
+                </div>
+                <div class="col-2 layout-big">
+                    <h6 class="listItem.currentRecord-album">{{listItem.currentRecord.album }}</h6>
+                    <a [href]="listItem.urlShow" (click)="submitShow(listItem.currentRecord)">
+                        <h4 class="listItem.currentRecord-name fx-bg-name">{{listItem.currentRecord.trackNo ? listItem.currentRecord.trackNo + ': ' : ''}}{{listItem.currentRecord.name}}</h4></a>
+                </div>
+                <div class="col-2 layout-big">
+                    <div *ngIf="listItem.audio">
+                        <app-cdoc-audioplayer [record]="listItem.currentRecord"
+                                              [width]="200" [styleClass]="'audio-small'"
+                                              (playerStarted)="onPlayerStarted()"
+                                              (playerStopped)="onPlayerEnded()"
+                                              [autoplay]="autoplay"
+                                              [playerIdPrefix]="playerIdPrefix"
+                                              (show)="submitShow(listItem.currentRecord)"></app-cdoc-audioplayer>
+                    </div>
+                </div>
+                <div class="col-2 layout-big">
+                    <app-mdoc-ratepers [record]="listItem.currentRecord" [small]="true"></app-mdoc-ratepers>
+                    <app-mdoc-linked-playlists [record]="listItem.currentRecord"
+                                               (actionTagEvent)="onActionTagEvent($event)"></app-mdoc-linked-playlists>
+                </div>
+                <div class="col-2 layout-big">
+                    <app-cdoc-mediameta [record]="listItem.currentRecord.mdocmediameta"
+                                       [small]="true"></app-cdoc-mediameta>
+                </div>
+                <div class="col-2 layout-big">
+                    <div class="card-action-buttons align-bottom btn-group" role="group" aria-label="Actions">
+                        <button class="show btn-navigation" (click)="submitShow(listItem.currentRecord)" i18n="button listitemaction show mdoc|Buttontext to listitemaction:show mdoc@@button.listitemaction.mdoc.show">Show</button>
+                    </div>
+                    <app-mdoc-action [record]="listItem.currentRecord" [type]="'actionTagsSmall'" (actionTagEvent)="onActionTagEvent($event)"></app-mdoc-action>
+                    <app-cdoc-extended-object-properties [extendedObjectProperties]="listItem.currentRecord.mdocextendedobjectproperties"
+                                                         [categories]="['ENTITYCOUNT']"
+                                                         [profile]="'list-item-flat-big'" class="float-right"></app-cdoc-extended-object-properties>
+                </div>
+            </ng-container>
+        </ng-container>
+    </div>
+</ng-container>

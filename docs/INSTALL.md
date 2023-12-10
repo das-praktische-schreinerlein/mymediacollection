@@ -1,4 +1,4 @@
-# Install MySimpleHomePage
+# Install MyMediaCollection
 
 ## prepare
 
@@ -8,7 +8,7 @@
 #!/usr/bin/env bash
 
 WORKSPACE="/cygdrive/f/Projekte/"
-MYCMSPROJECT="mysimplehomepage"
+MYCMSPROJECT="mymediacollection"
 ```
 
 ### prepare src-directory
@@ -16,13 +16,56 @@ MYCMSPROJECT="mysimplehomepage"
 npm prune && npm install
 ``` 
 
-## Build viewer
-Run for the viewer-versions in `dist/`.
-```bash
-bash
-./build-viewer.bash
+### install redis
+- make redis
 ```
+wget http://download.redis.io/redis-stable.tar.gz
+tar xvzf redis-stable.tar.gz
+cd redis-stable
+make
+make install
+```
+- dirs
+```
+mkdir /etc/redis/
+mkdir /var/redis/
+mkdir /var/redis/6379
+```
+- configure redis
+```
+cp redis.conf /etc/redis/6379.conf
+vi /etc/redis/6379.conf
 
+# accept only from localhost
+bind 127.0.0.1
+protected-mode yes
+
+# set password-auth
+requirepass blablum
+
+# Set daemonize to yes (by default it is set to no).
+daemonize yes
+
+# Set the pidfile to /var/run/redis_6379.pid (modify the port if needed).
+pidfile /var/run/redis_6379.pid
+
+# Set your preferred loglevel.
+loglevel notice
+
+# Set the logfile to /var/log/redis_6379.log
+logfile /var/log/redis_6379.log
+
+# Set the dir to /var/redis/6379 (very important step!)
+dir /var/redis/6379
+
+# dont stop on write-errors
+stop-writes-on-bgsave-error no
+```
+- startscript
+```
+cp utils/redis_init_script /etc/init.d/redis_6379
+sudo update-rc.d redis_6379 defaults
+```
 ## Build dev
 Run for the dev-versions in `dist/`.
 ```bash
@@ -59,11 +102,11 @@ bash
 ## Deploy prod
 Stop backend via startscript
 ```bash
-/etc/init.d/myshp start
-/etc/init.d/myshp-frontend start
+/etc/init.d/mymm start
+/etc/init.d/mymm-frontend start
 ```
 
-Copy startscript `installer/linux/init.d/myshp*` to `/etc/init.d/` and change paths.
+Copy startscript `installer/linux/init.d/mymm*` to `/etc/init.d/` and change paths.
 
 Copy files to server
 ```
@@ -112,7 +155,7 @@ npm run backend-prepare-appenv-afterupdate-prod
 Set permissions and rights für `$APPDIR`
 
 Start backend via startscript
-```bash
-/etc/init.d/myshp start
-/etc/init.d/myshp start-frontend
+```
+/etc/init.d/mymm start
+/etc/init.d/mymm start-frontend
 ```

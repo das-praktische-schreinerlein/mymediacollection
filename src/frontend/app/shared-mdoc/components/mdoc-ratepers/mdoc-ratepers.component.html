@@ -1,0 +1,5 @@
+<ng-container *ngIf="mdocratepers !== undefined && (!small || mdocratepers.gesamt > 0)">
+    <div class="techvaluetable">
+        <div *ngIf="mdocratepers.gesamt > 0" class="entry"><div class="value"><ngb-rating [max]="'5'" [rate]="calcRate(mdocratepers.gesamt)" [readonly]="true"></ngb-rating></div></div>
+    </div>
+</ng-container>

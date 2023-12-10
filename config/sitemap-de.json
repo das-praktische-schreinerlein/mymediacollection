@@ -1,11 +1,11 @@
 {
     "fileDir": "dist/",
-    "sitemapBaseUrl": "http://localhost:4001/myshpdev/de/",
-    "showBaseUrl": "http://localhost:4001/myshpdev/de/",
+    "sitemapBaseUrl": "http://localhost:4001/mymmdev/de/",
+    "showBaseUrl": "http://localhost:4001/mymmdev/de/",
     "locale": "de",
     "perPage": 999,
     "mdocSearchForm": {
-        "type": "",
+        "type": "audio",
         "sort": "relevance"
     }
 }

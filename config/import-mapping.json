@@ -1,0 +1,38 @@
+{
+    "genre": {
+        "00s": {
+            "genre": "Unbekanntes Genre"
+        },
+        "Alternativ": {
+            "genre": "Alternative"
+        },
+        "AlternativeAlternative": {
+            "genre": "Alternative"
+        },
+        "AlternativeNPunk": {
+            "genre": "Punk"
+        }
+    },
+    "artist": {
+        "Unbekannter Interpret": {
+            "artist": "Unbekannter Artist"
+        },
+        "artist": {
+            "artist": "Unbekannter Artist"
+        },
+        "Unknown": {
+            "artist": "Unbekannter Artist"
+        },
+        "Various": {
+            "artist": "VA_Unbekannt"
+        },
+        "999": {
+            "genre": "PunkRock"
+        }
+    },
+    "album": {
+        "Chaos AD": {
+            "album": "Chaos A.D."
+        }
+    }
+}

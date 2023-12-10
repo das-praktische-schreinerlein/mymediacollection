@@ -1,0 +1,46 @@
+<div class="row card-deck" *ngIf="searchResult.currentRecords != undefined && searchResult.currentRecords.length > 0">
+    <ng-container [ngSwitch]="layout">
+        <ng-container *ngSwitchCase="Layout.BIG">
+            <app-mdoc-list-item style="min-width: 200px; margin-bottom: 10px" class="card app-cdoc-list-item app-mdoc-list-item-big"
+                                [record]="record"
+                                [autoplay]="record === playRecord"
+                                [playerIdPrefix]="playerIdPrefix"
+                                [multiActionManager]="multiActionManager"
+                                [layout]="layout"
+                                [short]="short"
+                                [backToSearchUrl]="getBackToSearchUrl(searchResult)"
+                                (show)="onShow($event)"
+                                (playerStarted)="onPlayerStarted($event)"
+                                (playerStopped)="onPlayerStopped($event)"
+                                *ngFor="let record of searchResult.currentRecords"></app-mdoc-list-item>
+        </ng-container>
+        <ng-container *ngSwitchCase="Layout.PAGE">
+            <app-mdoc-list-item style="min-width: 200px; margin-bottom: 10px" class="card app-cdoc-list-item app-mdoc-list-item-big"
+                                [record]="record"
+                                [autoplay]="record === playRecord"
+                                [playerIdPrefix]="playerIdPrefix"
+                                [multiActionManager]="multiActionManager"
+                                [layout]="layout"
+                                [short]="short"
+                                [backToSearchUrl]="getBackToSearchUrl(searchResult)"
+                                (show)="onShow($event)"
+                                (playerStarted)="onPlayerStarted($event)"
+                                (playerStopped)="onPlayerStopped($event)"
+                                *ngFor="let record of searchResult.currentRecords"></app-mdoc-list-item>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+            <app-mdoc-list-item-flat style="min-width: 130px; margin-bottom: 10px; clear: both; width: 100%" class="app-cdoc-list-item app-mdoc-list-item app-mdoc-list-item-flat"
+                                [record]="record"
+                                [autoplay]="record === playRecord"
+                                [playerIdPrefix]="playerIdPrefix"
+                                [multiActionManager]="multiActionManager"
+                                [layout]="layout"
+                                [short]="short"
+                                [backToSearchUrl]="getBackToSearchUrl(searchResult)"
+                                (show)="onShow($event)"
+                                (playerStarted)="onPlayerStarted($event)"
+                                (playerStopped)="onPlayerStopped($event)"
+                                *ngFor="let record of searchResult.currentRecords"></app-mdoc-list-item-flat>
+        </ng-container>
+    </ng-container>
+</div>

@@ -1,18 +1,38 @@
-import {CacheConfig} from '@dps/mycms-server-commons/dist/server-commons/datacache.module';
-import {
-    CommonBackendConfigType,
-    CommonKeywordMapperConfigType,
-    CommonSqlConnectionConfigType
-} from '@dps/mycms-server-commons/dist/backend-commons/modules/backend.commons';
-import {CommonPDocBackendConfigType} from '@dps/mycms-server-commons/dist/pdoc-backend-commons/modules/pdoc-backend.commons';
 import {FacetCacheUsageConfigurations} from '@dps/mycms-commons/dist/search-commons/services/sql-query.builder';
 import {FacetCacheConfiguration} from '@dps/mycms-commons/dist/facetcache-commons/model/facetcache.configuration';
+import {CacheConfig} from '@dps/mycms-server-commons/dist/server-commons/datacache.module';
+import {
+    CommonAudioBackendConfigType,
+    CommonBackendConfigType,
+    CommonImageBackendConfigType,
+    CommonKeywordMapperConfigType,
+    CommonSqlConnectionConfigType,
+    CommonVideoBackendConfigType
+} from '@dps/mycms-server-commons/dist/backend-commons/modules/backend.commons';
+import {CommonPDocBackendConfigType} from '@dps/mycms-server-commons/dist/pdoc-backend-commons/modules/pdoc-backend.commons';
+
+// tslint:disable-next-line:no-empty-interface
+export interface KeywordMapperConfigType extends CommonKeywordMapperConfigType {
+}
 
 export interface SqlConnectionConfigType extends CommonSqlConnectionConfigType<FacetCacheUsageConfigurations, FacetCacheConfiguration> {
 }
 
-export interface BackendConfigType extends CommonBackendConfigType<CommonKeywordMapperConfigType, CacheConfig>,
+export interface CommonTrackBackendConfigType {
+    apiRouteTracks: string;
+    apiRouteTracksStaticDir: string;
+    apiRouteTracksStaticEnabled: boolean;
+    apiRouteStoredTracks: string;
+    proxyTrackRouteToUrl: string;
+}
+
+export interface BackendConfigType extends CommonBackendConfigType<KeywordMapperConfigType, CacheConfig>,
+    CommonTrackBackendConfigType,
+    CommonAudioBackendConfigType<KeywordMapperConfigType, CacheConfig>,
+    CommonImageBackendConfigType<KeywordMapperConfigType, CacheConfig>,
+    CommonVideoBackendConfigType<KeywordMapperConfigType, CacheConfig>,
     CommonPDocBackendConfigType<SqlConnectionConfigType> {
-    nodejsBinaryPath: string,
-    inlineJsPath: string
+    mdocDataStoreAdapter: string,
+    mdocWritable: boolean,
+    MediaDocSqlMediadbAdapter: SqlConnectionConfigType
 }

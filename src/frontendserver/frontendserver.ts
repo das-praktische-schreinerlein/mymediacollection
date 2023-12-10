@@ -70,7 +70,7 @@ ConfigureServerModule.configureDefaultErrorHandler(app);
 const bindIp = serverConfig.frontendConfig.bindIp ? serverConfig.frontendConfig.bindIp : '127.0.0.1';
 const tcpBacklog = serverConfig.frontendConfig.tcpBacklog ? serverConfig.frontendConfig.tcpBacklog : 511;
 app.listen(serverConfig.frontendConfig.port, bindIp,  tcpBacklog, function () {
-    console.log('MySHP app listening on ip/port/tcpBacklog', bindIp, serverConfig.frontendConfig.port, tcpBacklog);
+    console.log('MyMM app listening on ip/port/tcpBacklog', bindIp, serverConfig.frontendConfig.port, tcpBacklog);
 
     // disable debug-logging
     if (!debug) {

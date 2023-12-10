@@ -10,8 +10,19 @@ export interface AppEnvironment extends CommonEnvironment {
     hideInternalImages?: boolean,
     assetsPathVersionSnippet: string;
     assetsPathVersionSuffix: string;
+    audioBaseUrl: string;
+    picsBaseUrl: string;
+    videoBaseUrl: string;
+    useVideoAssetStoreUrls: boolean;
+    useAudioAssetStoreUrls: boolean;
+    skipMediaCheck?: boolean,
+    mdocWritable: boolean;
+    mdocActionTagWritable: boolean;
+    mdocMaxItemsPerAlbum: number;
+    m3uAvailable: boolean;
     currentDataMode?: DataMode;
     startDataMode?: DataMode;
     availableDataModes?: DataMode[];
     staticPDocsFile?: string;
+    staticMDocsFiles?: string[];
 }

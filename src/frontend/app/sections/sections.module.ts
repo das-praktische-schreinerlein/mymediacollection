@@ -1,9 +1,12 @@
 import {NgModule} from '@angular/core';
+import {SectionsSearchFormResolver} from './resolver/sections-searchform.resolver';
+import {SectionsMediaDocRecordResolver} from './resolver/sections-mdoc-details.resolver';
 import {SectionsRoutingModule} from './sections-routing.module';
 import {SectionsBaseUrlResolver} from '@dps/mycms-frontend-commons/dist/frontend-cdoc-commons/resolver/sections-baseurl.resolver';
 import {SectionsPDocRecordResolver} from '@dps/mycms-frontend-commons/dist/frontend-cdoc-commons/resolver/sections-pdoc-details.resolver';
-import {CommonDocRoutingService} from '@dps/mycms-frontend-commons/dist/frontend-cdoc-commons/services/cdoc-routing.service';
+import {MediaDocSectionPageComponent} from './components/sectionpage/mdoc-section-page.component';
 import {BrowserModule} from '@angular/platform-browser';
+import {SharedMediaDocModule} from '../shared-mdoc/shared-mdoc.module';
 import {NgbCollapseModule, NgbTabsetModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SectionsPDocsResolver} from '@dps/mycms-frontend-commons/dist/frontend-cdoc-commons/resolver/sections-pdocs.resolver';
@@ -16,6 +19,7 @@ import {FrontendSectionCommonsModule} from '@dps/mycms-frontend-commons/dist/fro
 
 @NgModule({
     declarations: [
+        MediaDocSectionPageComponent
     ],
     imports: [
         TranslateModule,
@@ -23,19 +27,20 @@ import {FrontendSectionCommonsModule} from '@dps/mycms-frontend-commons/dist/fro
         BrowserModule,
         FormsModule,
         ReactiveFormsModule,
+        SharedMediaDocModule,
         FrontendSectionCommonsModule,
         SectionsRoutingModule,
         FrontendCommonDocCommonsModule
     ],
     providers: [
         CommonRoutingService,
-        CommonDocRoutingService,
         SectionsBaseUrlResolver,
+        SectionsSearchFormResolver,
+        SectionsMediaDocRecordResolver,
         SectionsPDocRecordResolver,
         SectionsPDocsResolver,
         ErrorResolver,
         PageUtils
     ]
 })
-export class SectionsModule {
-}
+export class SectionsModule {}

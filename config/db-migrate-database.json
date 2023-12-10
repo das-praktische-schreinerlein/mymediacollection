@@ -1,14 +1,14 @@
 {
-    "myshpdb_sqlite3": {
+    "mediadb_sqlite3": {
         "driver": "sqlite3",
-        "filename": "F:/playground/myshp-test/myshp.sqlite"
+        "filename": "F:/playground/mymm-test/mymmbase/musikdb.sqlite"
     },
-    "myshpdb_mysql": {
+    "mediadb_mysql": {
         "driver": "mysql",
         "host": "localhost",
-        "user": "testmysqhdb",
-        "password": "testmysqhdb",
-        "database": "testmysqhdb",
+        "user": "mymm",
+        "password": "blimblamblum",
+        "database": "testmusikdb",
         "port": "3306",
         "multipleStatements": true
     }

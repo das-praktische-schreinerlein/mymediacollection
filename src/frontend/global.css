@@ -54,10 +54,13 @@ div.humanReadableSearchFilter span.filterValue {
 .list-item-persrate-1 {
 }
 .list-item-persrate-2 {
+    background: antiquewhite;
 }
 .list-item-persrate-3 {
+    background: antiquewhite;
 }
 .list-item-persrate-4 {
+    background: antiquewhite;
     border: 3px solid gold !important;
     border-color: gold !important;
 }
@@ -82,6 +85,31 @@ img.picture-small, img.picture-big, video.picture-big , img.picture-teaser {
     margin-left: auto;
     margin-right: auto;
 }
+
+div.audiocover-small {
+    max-width: 95%;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+span.noaudiocover-small {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 200px;
+    height: 150px;
+    width: 100%;
+    font-family: Georgia, serif;
+    background: lightgray;
+    font-size: large;
+    text-overflow: fade;
+}
+
+
 
 div.leaflet-div-icon-area, div.leaflet-div-icon-end, div.leaflet-div-icon-start, div.leaflet-div-icon-point {
     border: 2px solid #8CACD3;

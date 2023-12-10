@@ -16,6 +16,30 @@
             "pattern": "/api/v1/de/pages/.+",
             "file": "pdoc.json"
         },
+        "mdocsearch_de": {
+            "pattern": "/api/v1/de/mdocsearch.*",
+            "file": "mdocsearch.json"
+        },
+        "mdocsearch_en": {
+            "pattern": "/api/v1/en/mdocsearch.*",
+            "file": "mdocsearch.json"
+        },
+        "mdoc_de": {
+            "pattern": "/api/v1/de/mdoc/$",
+            "file": "mdocsearch.json"
+        },
+        "mdoc_en": {
+            "pattern": "/api/v1/de/mdoc/$",
+            "file": "mdocsearch.json"
+        },
+        "mdoc_params_de": {
+            "pattern": "/api/v1/de/mdoc/.+",
+            "file": "mdoc.json"
+        },
+        "mdoc_params_en": {
+            "pattern": "/api/v1/de/mdoc/.+",
+            "file": "mdoc.json"
+        },
         "tracks": {
             "pattern": "/tracks/.*",
             "file": "track.gpx"
@@ -43,3 +67,4 @@
         "cacheRedisDB": "1"
     }
 }
+

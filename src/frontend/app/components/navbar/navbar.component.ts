@@ -45,6 +45,10 @@ export class NavbarComponent implements OnInit {
                     this.pdocWritable = true;
                 }
 
+                if (this.config && this.config['mdocMaxItemsPerAlbum'] > 0) {
+                    this.albumAllowed = true;
+                }
+
                 me.cd.markForCheck();
             }
         });

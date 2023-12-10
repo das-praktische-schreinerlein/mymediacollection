@@ -1,0 +1,162 @@
+<ng-container *ngIf="record != undefined && record.id != undefined">
+    <div class="container content-container">
+        <div class="card-block">
+            <app-mdoc-list-item [record]="record"
+                                [multiActionManager]="multiActionManager"
+                                (show)="submitBackToShow()"></app-mdoc-list-item>
+        </div>
+        <br clear="all" />
+        <div class="card-footer text-right" style="width: 100%">
+            <div class="card-action-buttons align-bottom btn-group" role="group" aria-label="Actions">
+                <app-mdoc-action [record]="record" [type]="'actionTagsBig'" (actionTagEvent)="onActionTagEvent($event)"></app-mdoc-action>
+                <a [href]="getBackToShowUrl()" (click)="submitBackToShow()" class="btn btn-action btn-sm"
+                   i18n="link back2show mdoc|Linktext back to show mdoc@@a.edit.mdoc.back2show">Back to Show</a>
+                <a [href]="getBackToSearchUrl()" (click)="submitBackToSearch()" class="btn btn-action btn-sm"
+                   i18n="link back2search mdoc|Linktext back to search mdoc@@a.edit.mdoc.back2search">Back to Search</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container content-container">
+        <div class="container">
+            <app-mdoc-editform [record]="record" [backToSearch]="'true'" (save)="submitSave($event, false)" (saveAndSearch)="submitSave($event, true)"></app-mdoc-editform>
+        </div>
+    </div>
+
+    <div class="container content-container">
+        <ng-container [ngSwitch]="record.type">
+            <ng-container *ngSwitchCase="'ALBUM'">
+                <app-mdoc-inline-searchpage *ngIf="availableTabs.GENRE"
+                                            [label]="'Genre'"
+                                            i18n-label="label inline-searchpage GENRE|Label inline-searchpage GENRE@@linline-search.label.mdoc.GENRE"
+                                            [params]="getFiltersForType(record, 'GENRE')"
+                                            [htmlId]="'GENRE'"
+                                            [showForm]="false"
+                                            [layout]="Layout.FLAT"
+                                            [showResultList]="showResultListTrigger.GENRE"
+                                            [showOnlyIfRecordsFound]="true"></app-mdoc-inline-searchpage>
+                <app-mdoc-inline-searchpage *ngIf="availableTabs.ARTIST"
+                                            [label]="'Artist'"
+                                            i18n-label="label inline-searchpage ARTIST|Label inline-searchpage ARTIST@@linline-search.label.mdoc.ARTIST"
+                                            [params]="getFiltersForType(record, 'ARTIST')"
+                                            [htmlId]="'ARTIST'"
+                                            [showForm]="false"
+                                            [layout]="Layout.FLAT"
+                                            [showResultList]="showResultListTrigger.ARTIST"
+                                            [showOnlyIfRecordsFound]="true"></app-mdoc-inline-searchpage>
+                <app-mdoc-inline-searchpage *ngIf="availableTabs.AUDIO"
+                                            [label]="'Audios'"
+                                            i18n-label="label inline-searchpage AUDIO|Label inline-searchpage AUDIO@@linline-search.label.mdoc.AUDIO"
+                                            [params]="getFiltersForType(record, 'AUDIO')"
+                                            [htmlId]="'AUDIO'"
+                                            [showForm]="false"
+                                            [showLayout]="true"
+                                            [layout]="Layout.FLAT"
+                                            [loadFacets]="['playlists_txt']"
+                                            [showMultiActionHeader]="true"
+                                            [showResultList]="showResultListTrigger.AUDIO"
+                                            [showOnlyIfRecordsFound]="true"></app-mdoc-inline-searchpage>
+            </ng-container>
+            <ng-container *ngSwitchCase="'ARTIST'">
+                <app-mdoc-inline-searchpage *ngIf="availableTabs.GENRE"
+                                            [label]="'Genre'"
+                                            i18n-label="label inline-searchpage GENRE|Label inline-searchpage GENRE@@linline-search.label.mdoc.GENRE"
+                                            [params]="getFiltersForType(record, 'GENRE')"
+                                            [htmlId]="'GENRE'"
+                                            [showForm]="false"
+                                            [layout]="Layout.FLAT"
+                                            [showResultList]="showResultListTrigger.GENRE"
+                                            [showOnlyIfRecordsFound]="true"></app-mdoc-inline-searchpage>
+                <app-mdoc-inline-searchpage *ngIf="availableTabs.ALBUM"
+                                            [label]="'Alben'"
+                                            i18n-label="label inline-searchpage ALBUM|Label inline-searchpage ALBUM@@linline-search.label.mdoc.ALBUM"
+                                            [params]="getFiltersForType(record, 'ALBUM')"
+                                            [htmlId]="'ALBUM'"
+                                            [showForm]="false"
+                                            [showLayout]="true"
+                                            [layout]="Layout.FLAT"
+                                            [showMultiActionHeader]="true"
+                                            [showResultList]="showResultListTrigger.ALBUM"
+                                            [showOnlyIfRecordsFound]="true"></app-mdoc-inline-searchpage>
+                <app-mdoc-inline-searchpage *ngIf="availableTabs.AUDIO"
+                                            [label]="'Audios'"
+                                            i18n-label="label inline-searchpage AUDIO|Label inline-searchpage AUDIO@@linline-search.label.mdoc.AUDIO"
+                                            [params]="getFiltersForType(record, 'AUDIO')"
+                                            [htmlId]="'AUDIO'"
+                                            [showForm]="false"
+                                            [showLayout]="true"
+                                            [layout]="Layout.FLAT"
+                                            [loadFacets]="['playlists_txt']"
+                                            [showMultiActionHeader]="true"
+                                            [showResultList]="showResultListTrigger.AUDIO"
+                                            [showOnlyIfRecordsFound]="true"></app-mdoc-inline-searchpage>
+            </ng-container>
+            <ng-container *ngSwitchCase="'AUDIO'">
+                <app-mdoc-inline-searchpage *ngIf="availableTabs.GENRE"
+                                            [label]="'Genre'"
+                                            i18n-label="label inline-searchpage GENRE|Label inline-searchpage GENRE@@linline-search.label.mdoc.GENRE"
+                                            [params]="getFiltersForType(record, 'GENRE')"
+                                            [htmlId]="'GENRE'"
+                                            [showForm]="false"
+                                            [layout]="Layout.FLAT"
+                                            [showResultList]="showResultListTrigger.GENRE"
+                                            [showOnlyIfRecordsFound]="true"></app-mdoc-inline-searchpage>
+                <app-mdoc-inline-searchpage *ngIf="availableTabs.ARTIST"
+                                            [label]="'Artist'"
+                                            i18n-label="label inline-searchpage ARTIST|Label inline-searchpage ARTIST@@linline-search.label.mdoc.ARTIST"
+                                            [params]="getFiltersForType(record, 'ARTIST')"
+                                            [htmlId]="'ARTIST'"
+                                            [showForm]="false"
+                                            [layout]="Layout.FLAT"
+                                            [showResultList]="showResultListTrigger.ARTIST"
+                                            [showOnlyIfRecordsFound]="true"></app-mdoc-inline-searchpage>
+                <app-mdoc-inline-searchpage *ngIf="availableTabs.ALBUM"
+                                            [label]="'Alben'"
+                                            i18n-label="label inline-searchpage ALBUM|Label inline-searchpage ALBUM@@linline-search.label.mdoc.ALBUM"
+                                            [params]="getFiltersForType(record, 'ALBUM')"
+                                            [htmlId]="'ALBUM'"
+                                            [showForm]="false"
+                                            [layout]="Layout.FLAT"
+                                            [showResultList]="showResultListTrigger.ALBUM"
+                                            [showOnlyIfRecordsFound]="true"></app-mdoc-inline-searchpage>
+            </ng-container>
+            <ng-container *ngSwitchCase="'GENRE'">
+                <app-mdoc-inline-searchpage *ngIf="availableTabs.ARTIST"
+                                            [label]="'Artist'"
+                                            i18n-label="label inline-searchpage ARTIST|Label inline-searchpage ARTIST@@linline-search.label.mdoc.ARTIST"
+                                            [params]="getFiltersForType(record, 'ARTIST')"
+                                            [htmlId]="'ARTIST'"
+                                            [showForm]="false"
+                                            [showLayout]="true"
+                                            [layout]="Layout.FLAT"
+                                            [showMultiActionHeader]="true"
+                                            [showResultList]="showResultListTrigger.ARTIST"
+                                            [showOnlyIfRecordsFound]="true"></app-mdoc-inline-searchpage>
+                <app-mdoc-inline-searchpage *ngIf="availableTabs.ALBUM"
+                                            [label]="'Alben'"
+                                            i18n-label="label inline-searchpage ALBUM|Label inline-searchpage ALBUM@@linline-search.label.mdoc.ALBUM"
+                                            [params]="getFiltersForType(record, 'ALBUM')"
+                                            [htmlId]="'ALBUM'"
+                                            [showForm]="false"
+                                            [showLayout]="true"
+                                            [layout]="Layout.FLAT"
+                                            [showMultiActionHeader]="true"
+                                            [showResultList]="showResultListTrigger.ALBUM"
+                                            [showOnlyIfRecordsFound]="true"></app-mdoc-inline-searchpage>
+                <app-mdoc-inline-searchpage *ngIf="availableTabs.AUDIO"
+                                            [label]="'Audios'"
+                                            i18n-label="label inline-searchpage AUDIO|Label inline-searchpage AUDIO@@linline-search.label.mdoc.AUDIO"
+                                            [params]="getFiltersForType(record, 'AUDIO')"
+                                            [htmlId]="'AUDIO'"
+                                            [showForm]="false"
+                                            [showLayout]="true"
+                                            [loadFacets]="['playlists_txt']"
+                                            [layout]="Layout.FLAT"
+                                            [showMultiActionHeader]="true"
+                                            [showResultList]="showResultListTrigger.AUDIO"
+                                            [showOnlyIfRecordsFound]="true"></app-mdoc-inline-searchpage>
+            </ng-container>
+        </ng-container>
+        <div (click)="onScrollToTop()" class="scroll-to-top-container hidden-print"><span></span></div>
+    </div>
+</ng-container>

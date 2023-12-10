@@ -14,11 +14,21 @@ export const environment: AppEnvironment = {
     pdocWritable: true,
     pdocActionTagWritable: true,
     pdocEmptyDefaultSearchTypes: 'page',
-    defaultSearchTypes: '',
-    emptyDefaultSearchTypes: '',
-    useAssetStoreUrls: false,
-    allowAutoPlay: false,
     backendApiBaseUrl: 'http://localhost:4100/api/v1/',
+    audioBaseUrl: 'http://localhost:4100/api/static/audiostore/',
+    picsBaseUrl: 'http://localhost:4100/api/static/picturestore/',
+    videoBaseUrl: 'http://localhost:4100/api/static/videos/',
+    defaultSearchTypes: 'artist',
+    emptyDefaultSearchTypes: 'artist',
+    useAssetStoreUrls: true,
+    useAudioAssetStoreUrls: true,
+    useVideoAssetStoreUrls: false,
+    skipMediaCheck: false,
+    mdocWritable: true,
+    mdocActionTagWritable: true,
+    allowAutoPlay: true,
+    mdocMaxItemsPerAlbum: 20000,
+    m3uAvailable: true,
     cookieLawSeenName: 'cookieLawSeenV20180525',
     trackingProviders: [], // Angulartics2Piwik
     adminBackendApiBaseUrl: 'http://localhost:4900/adminapi/v1/',
@@ -26,5 +36,5 @@ export const environment: AppEnvironment = {
     hideInternalDescLinks: false,
     hideInternalImages: false,
     startDataMode: DataMode.BACKEND,
-    availableDataModes: [DataMode.BACKEND, DataMode.STATIC]
+    availableDataModes: [DataMode.BACKEND]
 };

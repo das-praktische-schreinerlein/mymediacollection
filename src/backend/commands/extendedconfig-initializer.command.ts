@@ -11,10 +11,6 @@ export class ExtendedConfigInitializerCommand extends ConfigInitializerCommand {
     protected solrconfigbasepath: string;
     protected installerdbbasepath: string;
 
-    public static replacePDocSolrPasswordInBackendConfig(file: string, solrPassword: string, required: boolean): Promise<boolean> {
-        return ConfigInitializerUtil.replaceSolrPasswordInBackendConfig(file, 'solrCorePDocReadPassword', solrPassword, required);
-    }
-
     protected createValidationRules(): {[key: string]: ValidationRule} {
         return {
             ...super.createValidationRules(),
@@ -25,8 +21,8 @@ export class ExtendedConfigInitializerCommand extends ConfigInitializerCommand {
 
     protected definePossibleActions(): string[] {
         return super.definePossibleActions().concat([
-            'resetSolrPasswords',
-            'setSolrPasswords']);
+            'resetMysqlDevPasswords',
+            'setMysqlDevPasswords']);
     }
 
     protected processCommandArgs(argv: {}): Promise<any> {
@@ -39,13 +35,13 @@ export class ExtendedConfigInitializerCommand extends ConfigInitializerCommand {
         const action = argv['action'];
         switch (action) {
             case 'resetServicePasswords':
-                return this.setSolrPasswords(PasswordUtils.createNewDefaultPassword(30))
-            case 'resetSolrPasswords':
-                return this.setSolrPasswords(PasswordUtils.createNewDefaultPassword(30));
+                return this.setMysqlDevPasswords(PasswordUtils.createNewDefaultPassword(30));
+            case 'resetMysqlDevPasswords':
+                return this.setMysqlDevPasswords(PasswordUtils.createNewDefaultPassword(30));
             case 'resetTokenCookie':
                 return this.setTokenCookie(tokenkey, PasswordUtils.createNewDefaultPassword(30));
-            case 'setSolrPasswords':
-                return this.setSolrPasswords(newpassword);
+            case 'setMysqlDevPasswords':
+                return this.setMysqlDevPasswords(newpassword);
             case 'setTokenCookie':
                 return this.setTokenCookie(tokenkey, newpassword);
             default:
@@ -53,94 +49,48 @@ export class ExtendedConfigInitializerCommand extends ConfigInitializerCommand {
         }
     }
 
-    protected setSolrPasswords(newpassword: string): Promise<any> {
+    protected setMysqlDevPasswords(newpassword: string): Promise<any> {
         if (newpassword === undefined || newpassword.length < 8) {
             return Promise.reject('valid newpassword required');
         }
 
-        return PasswordUtils.createSolrPasswordHash(newpassword).then(solrPasswordHash => {
-            const me = this;
-            const promises = [];
-
-            promises.push(function () {
-                return ConfigInitializerUtil.replaceSolrDefaultPasswordHashInSolrConfig(
-                    me.solrconfigbasepath + '/security.json', solrPasswordHash, false);
-            });
-
-            promises.push(function () {
-                return me.setSolrReadPasswords(newpassword, solrPasswordHash);
-            });
-
-            promises.push(function () {
-                return me.setSolrWritePasswords(newpassword, solrPasswordHash);
-            });
-
-            return Promise_serial(promises, {parallelize: 1}).then(() => {
-                return Promise.resolve('DONE - setSolrPasswords');
-            }).catch(reason => {
-                return Promise.reject(reason);
-            });
-        });
-    }
-
-    protected setSolrReadPasswords(newpassword: string, solrPasswordHash: string): Promise<any> {
-        if (newpassword === undefined || newpassword.length < 8 || solrPasswordHash === undefined || solrPasswordHash.length < 8) {
-            return Promise.reject('valid newpassword required');
-        }
-
         const me = this;
         const promises = [];
         promises.push(function () {
-            return ExtendedConfigInitializerCommand.replacePDocSolrPasswordInBackendConfig(
-                me.configbasepath + '/backend.dev.json', newpassword, false);
+            return ConfigInitializerUtil.replaceMysqlPasswordInBackendConfig(
+                me.configbasepath + '/backend.dev.json',
+                'MediaDocSqlMediadbAdapter',
+                newpassword, false);
         });
         promises.push(function () {
-            return ExtendedConfigInitializerCommand.replacePDocSolrPasswordInBackendConfig(
-                me.configbasepath + '/backend.beta.json', newpassword, false);
+            return ConfigInitializerUtil.replaceMysqlPasswordInBackendConfig(
+                me.configbasepath + '/backend.beta.json',
+                'MediaDocSqlMediadbAdapter',
+                newpassword, false);
         });
         promises.push(function () {
-            return ExtendedConfigInitializerCommand.replacePDocSolrPasswordInBackendConfig(
-                me.configbasepath + '/backend.prod.json', newpassword, false);
+            return ConfigInitializerUtil.replaceMysqlPasswordInBackendConfig(
+                me.configbasepath + '/backend.prod.json',
+                'MediaDocSqlMediadbAdapter',
+                newpassword, false);
         });
-
         promises.push(function () {
-            return ConfigInitializerUtil.replaceSolrUserPasswordInSolrConfig(
-                me.solrconfigbasepath + '/security.json', 'myshpread', solrPasswordHash, false);
+            return ConfigInitializerUtil.replaceMysqlPasswordInCreateUserSql(
+                me.installerdbbasepath + '/mysql/musikdb/step2_create-user.sql',
+                '.*?',
+                newpassword, false);
+        });
+        promises.push(function () {
+            return ConfigInitializerUtil.replaceMysqlPasswordInDbMigrateConfig(
+                me.configbasepath + '/db-migrate-database.json',
+                'mediadb_mysql',
+                newpassword, false);
         });
 
         return Promise_serial(promises, {parallelize: 1}).then(() => {
-            return Promise.resolve('DONE - setSolrPasswords');
+            return Promise.resolve('DONE - setMysqlDevPasswords');
         }).catch(reason => {
             return Promise.reject(reason);
         });
     }
-
-    protected setSolrWritePasswords(newpassword: string, solrPasswordHash: string): Promise<any> {
-        if (newpassword === undefined || newpassword.length < 8 || solrPasswordHash === undefined || solrPasswordHash.length < 8) {
-            return Promise.reject('valid newpassword required');
-        }
-
-        const me = this;
-        const promises = [];
-
-        promises.push(function () {
-            return ConfigInitializerUtil.replaceSolrPasswordInDbPublishConfig(
-                me.configbasepath + '/dbpublish.json', newpassword, false);
-        });
-        promises.push(function () {
-            return ConfigInitializerUtil.replaceSolrUserPasswordInSolrConfig(
-                me.solrconfigbasepath + '/security.json', 'myshpadmin', solrPasswordHash, false);
-        });
-        promises.push(function () {
-            return ConfigInitializerUtil.replaceSolrUserPasswordInSolrConfig(
-                me.solrconfigbasepath + '/security.json', 'myshpupdate', solrPasswordHash, false);
-        });
-
-        return Promise_serial(promises, {parallelize: 1}).then(() => {
-            return Promise.resolve('DONE - setSolrPasswords');
-        }).catch(reason => {
-            return Promise.reject(reason);
-        });
-    }
-
 }

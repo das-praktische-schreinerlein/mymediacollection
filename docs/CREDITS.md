@@ -1,9 +1,9 @@
-# credits for used libraries of MySimpleHomePage
+# credits for used libraries of MyMediaCollection
 
-MySimpleHomePage is programmed in typescript and bases on angular5 on frontend-side and and express on server-site.
+MyMediaCollection is programmed in typescript and bases on angular5 on frontend-side and and express on server-site.
 As datastore it supports Solr, MySql and Sqlite.
 
-MySimpleHomePage uses a bunch of libraries and tools. Many thanx to the people behind these projects. 
+MyMediaCollection uses a bunch of libraries and tools. Many thanx to the people behind these projects. 
 
 ## frontend
 - web-framework
@@ -49,8 +49,13 @@ MySimpleHomePage uses a bunch of libraries and tools. Many thanx to the people b
     - [js-data-express](https://www.npmjs.com/package/js-data-express)
     - [js-data-http](https://www.npmjs.com/package/js-data-http)
     - [js-data-http-node](https://www.npmjs.com/package/js-data-http-node)
+    - [js-data-sql](https://www.npmjs.com/package/js-data-sql)
 - storage-adapter
     - [itemsjs](https://www.npmjs.com/package/itemsjs)
+    - [mysql](https://www.npmjs.com/package/mysql)
+    - [knex](https://www.npmjs.com/package/knex)
+    - [redis](https://www.npmjs.com/package/redis)
+    - [sqlite3](https://www.npmjs.com/package/sqlite3)
 - sitemap
     - [sitemap](https://www.npmjs.com/package/sitemap)
     - [sitemap-stream-parser](https://www.npmjs.com/package/sitemap-stream-parser)
@@ -65,6 +70,9 @@ MySimpleHomePage uses a bunch of libraries and tools. Many thanx to the people b
     - [pm2](https://www.npmjs.com/package/pm2)
  
 ## datastores
+- [solr](http://lucene.apache.org/solr/)
+- [mysql](https://www.mysql.com/de/)
+- [sqlite](https://www.sqlite.org/index.html)
 - [redis](https://redis.io/)
  
 ## build-tools

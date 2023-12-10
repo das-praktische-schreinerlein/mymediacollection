@@ -33,7 +33,7 @@ ServerModuleLoader.loadModules(app, serverConfig);
 const bindIp = serverConfig.backendConfig.bindIp ? serverConfig.backendConfig.bindIp : '127.0.0.1';
 const tcpBacklog = serverConfig.backendConfig.tcpBacklog ? serverConfig.backendConfig.tcpBacklog : 511;
 app.listen(serverConfig.backendConfig.port, bindIp,  tcpBacklog, function () {
-    console.log('MySHP app listening on ip/port/tcpBacklog', bindIp, serverConfig.backendConfig.port, tcpBacklog);
+    console.log('MyMM app listening on ip/port/tcpBacklog', bindIp, serverConfig.backendConfig.port, tcpBacklog);
 
     console.log('Debug-level level/log/trace', debug, !(!debug), !(!debug || debug === true || parseInt(debug, 10) < 1));
     if (!debug) {

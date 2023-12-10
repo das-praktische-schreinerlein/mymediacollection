@@ -1,10 +1,10 @@
-import { MySimpleHomePagePage } from './app.po';
+import {MyMediaCollectionPage} from './app.po';
 
 describe('image-import-editor-app App', function() {
-  let page: MySimpleHomePagePage;
+  let page: MyMediaCollectionPage;
 
   beforeEach(() => {
-    page = new MySimpleHomePagePage();
+    page = new MyMediaCollectionPage();
   });
 
   it('should display message saying app works', () => {

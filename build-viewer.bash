@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 WORKSPACE="/cygdrive/f/Projekte/"
-MYCMSPROJECT="mysimplehomepage"
+MYCMSPROJECT="mymediacollection_dev"
 
 echo "STEP: build frontend  -> there MUST NOT be the node_modules"
 cd ${WORKSPACE}${MYCMSPROJECT}

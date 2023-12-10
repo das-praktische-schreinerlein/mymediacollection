@@ -1,4 +1,4 @@
-# Develop MySimpleHomepage
+# Develop MyMediaCollection
 
 ## prepare
 
@@ -8,7 +8,7 @@
 #!/usr/bin/env bash
 
 WORKSPACE="/cygdrive/f/Projekte/"
-MYCMSPROJECT="mysimplehomepage"
+MYCMSPROJECT="mymediacollection"
 ```
 
 ## Development server
@@ -44,4 +44,23 @@ Run to execute the end-to-end tests via [Protractor](http://www.protractortest.o
 Before running the tests make sure you are serving the app via `npm start`.
 ```bash
 npm e2e
+```
+
+## add database-migrations
+- create new migration-files for mediadb driver: sqlite
+```bash
+db-migrate create extend-model --sql-file --migrations-dir migrations\mediadb --config config\db-migrate-database.json --env mediadb_sqlite3
+```
+- compare with migrations/mediadb/20190804164718-extend-model.js and add driver to path
+- move sql-files to specific folder: mysql|sqlite3
+- copy sql-files to the other folder: mysql|sqlite3
+- add sql to sql-files
+- do migration
+```bash
+db-migrate up --migrations-dir migrations\mediadb --config config\db-migrate-database.json --env mediadb_sqlite3
+db-migrate down --migrations-dir migrations\mediadb --config config\db-migrate-database.json --env mediadb_sqlite3
+```
+- insert migrations manually if scripts dont pass but model is ready 
+```sql
+INSERT INTO migrations (id, name, run_on) VALUES (4, '/20200807444444-extend-model', '2020-08-07 22:38:39');
 ```

@@ -2,7 +2,7 @@
     "profile": "dev",
     "port": 4001,
     "bindIp": "127.0.0.1",
-    "cacheFolder": "cache/myshpdev/",
+    "cacheFolder": "cache/mymmdev/",
     "redirectFileJson": "config/redirects.dev.json",
     "redirectOnlyCached": false
 }

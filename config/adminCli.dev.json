@@ -55,16 +55,10 @@
                         "command": "dbMigrate",
                         "action": "migrateDB",
                         "migrationDbConfigFile": "config/db-migrate-database.json",
-                        "migrationsDir": "migrations/myshpdb",
-                        "migrationEnv": "myshpdb_sqlite3"
+                        "migrationsDir": "migrations/mediadb",
+                        "migrationEnv": "mediadb_sqlite3"
                     }
-                },
-                {
-                    "parameters": {
-                        "command": "initConfig",
-                        "action": "resetSolrPasswords",
-                        "solrconfigbasepath": "dist/contrib/solr/server/solr"
-                    }
+
                 },
                 {
                     "parameters": {

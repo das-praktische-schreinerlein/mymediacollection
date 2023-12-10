@@ -1,0 +1,55 @@
+<ng-container *ngIf="listItem.currentRecord !== undefined" [ngSwitch]="true">
+    <div class="card-block" [ngClass]="listItem.styleClassFor">
+        <a [name]="listItem.currentRecord.id"></a>
+        <div>
+            <div class="fx-bg-type">
+                <h6 class="listItem.currentRecord-subtype fx-bg-type">{{listItem.currentRecord.type | translate }} - {{listItem.currentRecord.subtype | translate }}
+                    <i>{{listItem.currentRecord.genre }}</i></h6>
+            </div>
+            <a [href]="listItem.urlShow" (click)="submitShow(listItem.currentRecord)">
+                <h4 class="listItem.currentRecord-name fx-bg-name">{{listItem.currentRecord.trackNo ? listItem.currentRecord.trackNo + ': ' : ''}}{{listItem.currentRecord.name}}</h4>
+            </a>
+            <h4 class="listItem.currentRecord-artist">{{listItem.currentRecord.artist }}</h4>
+            <h6 class="listItem.currentRecord-album">{{listItem.currentRecord.album }}</h6>
+
+            <div *ngIf="listItem.coverUrl" class="audiocover-small" >
+                <img class="audiocover-small" width="150px"
+                     [src]="listItem.coverUrl"
+                     (click)="submitShow(listItem.currentRecord)"
+                     alt="{{listItem.currentRecord.name}}">
+            </div>
+            <div *ngIf="!listItem.coverUrl" class="audiocover-small noaudiocover-small">
+                <span class="noaudiocover-small" (click)="submitShow(listItem.currentRecord)">{{listItem.currentRecord.name}}</span>
+            </div>
+
+            <div *ngIf="listItem.audio">
+                <app-cdoc-audioplayer [record]="listItem.currentRecord"
+                                      [width]="300" [styleClass]="'audio-small'"
+                                      (playerStarted)="onPlayerStarted()"
+                                      (playerStopped)="onPlayerEnded()"
+                                      [autoplay]="autoplay"
+                                      [playerIdPrefix]="playerIdPrefix"
+                                      (show)="submitShow(listItem.currentRecord)"></app-cdoc-audioplayer>
+            </div>
+            <app-mdoc-ratepers [record]="listItem.currentRecord"></app-mdoc-ratepers>
+            <app-cdoc-mediameta [record]="listItem.currentRecord.mdocmediameta"></app-cdoc-mediameta>
+            <app-mdoc-linked-playlists [record]="listItem.currentRecord"
+                                       (actionTagEvent)="onActionTagEvent($event)"></app-mdoc-linked-playlists>
+            <app-mdoc-keywords [record]="listItem.currentRecord"></app-mdoc-keywords>
+            <app-cdoc-extended-object-properties [extendedObjectProperties]="listItem.currentRecord.mdocextendedobjectproperties"
+                                                 [categories]="['ENTITYCOUNT']"
+                                                 [profile]="'list-item-flat-big'" class="float-right"></app-cdoc-extended-object-properties>
+        </div>
+    </div>
+    <div class="card-footer card-footer-list-item" *ngIf="!short">
+        <div class="multiaction-checkbox" *ngIf="isMultiActionTagSelected()">
+            <input type="checkbox" [disabled]="isMultiActionAvailableForRecord()"
+                   [checked]="isMultiActionSelectedForRecord()"
+                   (click)="onChangeMultiActionForRecord($event)">
+        </div>
+        <div class="card-action-buttons align-bottom btn-group" role="group" aria-label="Actions">
+            <button class="show btn-navigation" (click)="submitShow(listItem.currentRecord)" i18n="button listitemaction show mdoc|Buttontext to listitemaction:show mdoc@@button.listitemaction.mdoc.show">Show</button>
+        </div>
+        <app-mdoc-action [record]="listItem.currentRecord" [type]="'actionTagsBig'" (actionTagEvent)="onActionTagEvent($event)"></app-mdoc-action>
+    </div>
+</ng-container>

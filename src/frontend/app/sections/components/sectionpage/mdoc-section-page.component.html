@@ -1,0 +1,387 @@
+<ng-container *ngIf="pdoc !== undefined">
+    <ng-container [ngSwitch]="searchFormLayout">
+        <ng-container *ngSwitchCase="SearchFormLayout.STACKED">
+            <div class="container content-container sectionpage-stacked-sidebar-container">
+                <ng-container *ngTemplateOutlet="sidebarContainer"></ng-container>
+            </div>
+
+            <div class="sectionpage-stacked-left-content-container">
+                <ng-container *ngTemplateOutlet="contentContainer"></ng-container>
+                <ng-container *ngTemplateOutlet="searchHintContainer"></ng-container>
+                <ng-container *ngTemplateOutlet="sectionsContainer"></ng-container>
+                <ng-container *ngTemplateOutlet="topTenContainer"></ng-container>
+                <ng-container *ngTemplateOutlet="dashBoardContainer"></ng-container>
+                <ng-container *ngTemplateOutlet="adminAreaContainer"></ng-container>
+            </div>
+        </ng-container>
+        <ng-container *ngSwitchDefault="">
+            <ng-container *ngTemplateOutlet="contentContainer"></ng-container>
+            <ng-container *ngTemplateOutlet="searchHintContainer"></ng-container>
+            <ng-container *ngTemplateOutlet="sectionsContainer"></ng-container>
+            <ng-container *ngTemplateOutlet="topTenContainer"></ng-container>
+            <ng-container *ngTemplateOutlet="dashBoardContainer"></ng-container>
+            <ng-container *ngTemplateOutlet="adminAreaContainer"></ng-container>
+            <ng-container *ngIf="flgShowTopTen">
+                <div class="container content-container hidden-print">
+                    <ng-container *ngTemplateOutlet="tagcloudContainer"></ng-container>
+                    <ul class="nav command-container justify-content-end hidden-print">
+                        <li class="command-link">
+                            <div (click)="onScrollToTop()" class="command-icon command-icon-scroll-to-top"><span></span></div>
+                        </li>
+                    </ul>
+                </div>
+            </ng-container>
+        </ng-container>
+    </ng-container>
+</ng-container>
+
+<ng-template #contentContainer>
+    <div class="container content-container sectionpage-content-container" *ngIf="(pdoc.descHtml !== undefined && pdoc.descHtml.length > 0) || (pdoc.descMd !== undefined && pdoc.descMd.length > 0)">
+        <img src="{{pdoc.image}}" width="170px" class="picture" style="float: left; margin: 0 15px 15px 0;" alt="{{pdoc.name}}" *ngIf="pdoc.image !== undefined && pdoc.image.length > 0">
+        <div id="desc" class="section-desc section-desc-{{pdoc.id}}"></div>
+        {{ renderDesc() }}
+        <br clear="both">
+    </div>
+</ng-template>
+
+<ng-template #searchHintContainer>
+    <ng-container *ngIf="flgShowSearch || flgShowTopTen">
+        <div class="container content-container sectionpage-hint-content-container hidden-print">
+            <ng-container *ngIf="flgShowSearch">
+                <div class="hint_tosearch">
+                    <a class="btn btn-action btn-sm" href="{{getToSearchUrl()}}"
+                       (click)="submitToSearch()" i18n="link 2search sectionPage|Linktext to search sectionPage@@a.sectionPage.2search">[Also direkt Los]</a></div>
+            </ng-container>
+
+            <ng-container *ngIf="flgShowSearch && flgShowTopTen">
+                <p i18n="text search-or sectionPage|Text to search-or sectionPage@@text.sectionPage.searchOr">oder</p>
+            </ng-container>
+
+            <ng-container *ngIf="flgShowTopTen">
+                <div class="hint_tostoebern" i18n="text pokeAround sectionPage|Text to pokeAround sectionPage@@text.sectionPage.pokeAround">Fröhliches Stöbern :-)</div>
+            </ng-container>
+        </div>
+    </ng-container>
+</ng-template>
+
+<ng-template #sectionsContainer>
+    <ng-container *ngIf="sections.length > 0">
+        <ng-container *ngFor="let section of sections">
+            <div class="container content-container sectionpage-sections-container">
+                <app-section-list-item-flat class="app-section-list-item"
+                                         [record]="section"
+                                         [layout]="Layout.FLAT"
+                                         (show)="onShow($event)"></app-section-list-item-flat>
+                <div class="container inline-content-container app-section-list" *ngIf="getSubSections(section).length > 0">
+                    <app-section-list class="app-section-list"
+                                   [records]="getSubSections(section)"
+                                   [layout]="Layout.BIG"
+                                   (show)="onShow($event)"></app-section-list>
+                </div>
+            </div>
+        </ng-container>
+    </ng-container>
+</ng-template>
+
+<ng-template #tagcloudContainer>
+    <ng-container *ngIf="mdocSearchResult.recordCount > 0">
+        <span class="text-bold" i18n="text shortlinks|Hint for shortlinks@@text.searchform.hints.shortLinks">Oder auf einen Klick...</span>
+        <app-cdoc-tagcloud [label]="'Was'" [facetName]="'genre_ss'" [max]="99"
+                           (columnClicked)="onTagcloudClicked($event, 'genre')"
+                           [searchResult]="genreSearchResult"></app-cdoc-tagcloud>
+        <app-cdoc-tagcloud [label]="'Playlists'" [facetName]="'playlists_txt'" [max]="20"
+                           (columnClicked)="onTagcloudClicked($event, 'playlists')"
+                           [searchResult]="genreSearchResult"></app-cdoc-tagcloud>
+    </ng-container>
+</ng-template>
+
+<ng-template #sidebarContainer>
+    <div class="sectionpage-sidebar-container">
+        <div class="text-center">
+            <a routerLink="/pages/start">
+                <img src="assets/images/banner-big.png" width="200" class="picture-thumbnail align-top img-sidebar-banner">
+            </a>
+        </div>
+        <div  class="text-center">
+            <a class="btn btn-action btn-sm" routerLink="/pages/start/search"
+               i18n="link 2search sectionPage|Linktext to search sectionPage@@a.sectionPage.2search">Zur Suche</a>
+        </div>
+    </div>
+    <ng-container *ngIf="flgShowTopTen && mdocSearchResult.recordCount > 0">
+        <div class="hidden-print sectionpage-sidebar-tagcloud-container">
+            <ng-container *ngTemplateOutlet="tagcloudContainer"></ng-container>
+        </div>
+    </ng-container>
+</ng-template>
+
+<ng-template #dashboardTable let-availableDashboardRows="availableDashboardRows"
+             let-dashboardRows="dashboardRows"
+             let-availableDashboardColumns="availableDashboardColumns"
+             let-dashboardColumns="dashboardColumns"
+             let-dashboardTitle="dashboardTitle">
+    <ng-container *ngIf="availableDashboardRows && availableDashboardColumns
+        && objectKeys(availableDashboardRows).length > 0 && objectKeys(availableDashboardColumns).length > 0">
+        <h5><span class="fx-bg-type">{{dashboardTitle}}</span></h5>
+        <table class="table-dashboard">
+            <tr>
+                <th i18n="tableheading dashboard columnProfile|Tableheading to dashboard columnProfile@@tableheading.dashboard.columnProfile">Profil</th>
+                <ng-container *ngFor="let type of objectKeys(availableDashboardColumns)">
+                    <th *ngIf="availableDashboardColumns[type]">{{type | translate}}</th>
+                </ng-container>
+            </tr>
+            <ng-container *ngFor="let dashboardRowType of dashboardRows">
+                <tr *ngIf="availableDashboardRows[dashboardRowType]">
+                    <td class="dashboardcolumn-available">{{ 'label.dashboardColumn.' + dashboardRowType | translate}}</td>
+                    <ng-container *ngFor="let type of dashboardColumns">
+                        <td *ngIf="availableDashboardColumns[type]"
+                            [ngClass]="getDashboardVisibilityForType(dashboardRowType, type) ? 'dashboardcolumn-available' : 'dashboardcolumn-unavailable'">
+                            <app-mdoc-dashboard-searchcolumn [baseSearchUrl]="baseSearchUrl"
+                                                             [params]="getDashboardFiltersForType(dashboardRowType, type, 'forExport')"
+                                                             [showOnlyIfRecordsFound]="false"
+                                                             *ngIf="getDashboardVisibilityForType(dashboardRowType, type)"></app-mdoc-dashboard-searchcolumn>
+                        </td>
+                    </ng-container>
+                </tr>
+            </ng-container>
+        </table>
+    </ng-container>
+</ng-template>
+
+<ng-template #dashBoard>
+    <ng-container *ngTemplateOutlet="dashboardTable;context:{dashboardTitle: 'Dashboard ToDos',
+                        dashboardRows: objectKeys(availableToDoDashboardRows),
+                        availableDashboardRows: availableToDoDashboardRows,
+                        dashboardColumns: objectKeys(availableDashboardColumns),
+                        availableDashboardColumns: availableDashboardColumns
+                        }"></ng-container>
+
+    <ng-container *ngTemplateOutlet="dashboardTable;context:{dashboardTitle: 'Dashboard Erledigt',
+                        dashboardRows: objectKeys(availableDoneDashboardRows),
+                        availableDashboardRows: availableDoneDashboardRows,
+                        dashboardColumns: objectKeys(availableDashboardColumns),
+                        availableDashboardColumns: availableDashboardColumns
+                        }"></ng-container>
+
+</ng-template>
+
+<ng-template #adminArea>
+    <app-admin-jobarea></app-admin-jobarea>
+</ng-template>
+
+<ng-template #bestMatching>
+    <h5><span class="fx-bg-type" i18n="heading relevance-results sectionPage|Heading to relevance-results sectionPage@@heading.sectionPage.relevanceResults">Best Matching</span></h5>
+    <ngb-tabset>
+        <ngb-tab title="Artists" *ngIf="availableTabs.ARTIST">
+            <ng-template ngbTabContent>
+                <app-mdoc-inline-searchpage [label]="'Artists'"
+                                            i18n-label="label section-page ARTIST|Label section-page ARTIST@@linline-search.label.mdoc.ARTIST"
+                                            [searchLinkLabel]="'Durchsuchen'"
+                                            i18n-searchLinkLabel="searchLinkLabel section-page ARTIST|SearchLinkLabel section-page ARTIST@@linline-search.searchLinkLabel.mdoc.ARTIST"
+                                            [baseSearchUrl]="baseSearchUrl"
+                                            [params]="getFiltersForType('ARTIST', 'countFavAudiosDesc')"
+                                            [showForm]="false"
+                                            [showResultList]="true"
+                                            [loadFacets]="true"
+                                            [layout]="Layout.BIG"
+                                            (searchResultFound)="onTopTenGenreResultFound($event)"
+                                            [showOnlyIfRecordsFound]="false"></app-mdoc-inline-searchpage>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Genres" *ngIf="availableTabs.GENRE">
+            <ng-template ngbTabContent>
+                <app-mdoc-inline-searchpage [label]="'Genres'"
+                                            i18n-label="label section-page GENRE|Label section-page GENRE@@linline-search.label.mdoc.GENRE"
+                                            [searchLinkLabel]="'Durchsuchen'"
+                                            i18n-searchLinkLabel="searchLinkLabel section-page GENRE|SearchLinkLabel section-page GENRE@@linline-search.searchLinkLabel.mdoc.GENRE"
+                                            [baseSearchUrl]="baseSearchUrl"
+                                            [params]="getFiltersForType('GENRE', 'countFavAudiosDesc')"
+                                            [showForm]="false"
+                                            [showResultList]="true"
+                                            [loadFacets]="true"
+                                            [layout]="Layout.BIG"
+                                            (searchResultFound)="onTopTenGenreResultFound($event)"
+                                            [showOnlyIfRecordsFound]="false"></app-mdoc-inline-searchpage>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Alben" *ngIf="availableTabs.ALBUM">
+            <ng-template ngbTabContent>
+                <app-mdoc-inline-searchpage [label]="'Alben'"
+                                            i18n-label="label section-page ALBUM|Label section-page ALBUM@@linline-search.label.mdoc.ALBUM"
+                                            [searchLinkLabel]="'Durchsuchen'"
+                                            i18n-searchLinkLabel="searchLinkLabel section-page ALBUM|SearchLinkLabel section-page ALBUM@@linline-search.searchLinkLabel.mdoc.ALBUM"
+                                            [baseSearchUrl]="baseSearchUrl"
+                                            [params]="getFiltersForType('ALBUM', 'countFavAudiosDesc')"
+                                            [showForm]="false"
+                                            [showResultList]="true"
+                                            [loadFacets]="true"
+                                            [layout]="Layout.BIG"
+                                            (searchResultFound)="onTopTenGenreResultFound($event)"
+                                            [showOnlyIfRecordsFound]="false"></app-mdoc-inline-searchpage>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Audios" *ngIf="availableTabs.AUDIO">
+            <ng-template ngbTabContent>
+                <app-mdoc-inline-searchpage [label]="'Audios'"
+                                            i18n-label="label section-page AUDIO|Label section-page AUDIO@@linline-search.label.mdoc.AUDIO"
+                                            [searchLinkLabel]="'Durchsuchen'"
+                                            [m3uLinkLabel]="'Playlist-Export'"
+                                            i18n-searchLinkLabel="searchLinkLabel section-page AUDIO|SearchLinkLabel section-page AUDIO@@linline-search.searchLinkLabel.mdoc.AUDIO"
+                                            [baseSearchUrl]="baseSearchUrl"
+                                            [params]="getFiltersForType('AUDIO', 'relevance')"
+                                            [showForm]="false"
+                                            [showResultList]="true"
+                                            [loadFacets]="true"
+                                            [layout]="Layout.BIG"
+                                            (searchResultFound)="onTopTenGenreResultFound($event)"
+                                            [showOnlyIfRecordsFound]="false"></app-mdoc-inline-searchpage>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Playlists" *ngIf="availableTabs.PLAYLIST">
+            <ng-template ngbTabContent>
+                <app-mdoc-inline-searchpage [label]="'Playlists'"
+                                            i18n-label="label section-page PLAYLIST|Label section-page PLAYLIST@@linline-search.label.mdoc.PLAYLIST"
+                                            [searchLinkLabel]="'Durchsuchen'"
+                                            i18n-searchLinkLabel="searchLinkLabel section-page PLAYLIST|SearchLinkLabel section-page PLAYLIST@@linline-search.searchLinkLabel.mdoc.PLAYLIST"
+                                            [baseSearchUrl]="baseSearchUrl"
+                                            [params]="getFiltersForType('PLAYLIST', 'relevance')"
+                                            [showForm]="false"
+                                            [showResultList]="true"
+                                            [loadFacets]="true"
+                                            [layout]="Layout.BIG"
+                                            (searchResultFound)="onTopTenGenreResultFound($event)"
+                                            [showOnlyIfRecordsFound]="false"></app-mdoc-inline-searchpage>
+            </ng-template>
+        </ngb-tab>
+    </ngb-tabset>
+
+</ng-template>
+
+<ng-template #favorites>
+    <h5><span class="fx-bg-type" i18n="heading favorite-results sectionPage|Heading to favorite-results sectionPage@@heading.sectionPage.favoriteResults">Favorites</span></h5>
+    <ngb-tabset>
+        <ngb-tab title="Audios" *ngIf="availableTabs.AUDIO">
+            <ng-template ngbTabContent>
+                <app-mdoc-inline-searchpage [label]="'Audios'"
+                                            i18n-label="label section-page AUDIO|Label section-page AUDIO@@linline-search.label.mdoc.AUDIO"
+                                            [searchLinkLabel]="'Durchsuchen'"
+                                            [m3uLinkLabel]="'Playlist-Export'"
+                                            i18n-searchLinkLabel="searchLinkLabel section-page AUDIO|SearchLinkLabel section-page AUDIO@@linline-search.searchLinkLabel.mdoc.AUDIO"
+                                            [baseSearchUrl]="baseSearchUrl"
+                                            [params]="getFiltersForType('AUDIO', 'ratePers')"
+                                            [showForm]="false"
+                                            [showResultList]="true"
+                                            [layout]="Layout.BIG"
+                                            [showOnlyIfRecordsFound]="false"></app-mdoc-inline-searchpage>
+            </ng-template>
+        </ngb-tab>
+
+        <ngb-tab title="Artists" *ngIf="availableTabs.ARTIST">
+            <ng-template ngbTabContent>
+                <app-mdoc-inline-searchpage [label]="'Artists'"
+                                            i18n-label="label section-page ARTIST|Label section-page ARTIST@@linline-search.label.mdoc.ARTIST"
+                                            [searchLinkLabel]="'Durchsuchen'"
+                                            i18n-searchLinkLabel="searchLinkLabel section-page ARTIST|SearchLinkLabel section-page ARTIST@@linline-search.searchLinkLabel.mdoc.ARTIST"
+                                            [baseSearchUrl]="baseSearchUrl"
+                                            [params]="getFiltersForType('ARTIST', 'ratePers')"
+                                            [showForm]="false"
+                                            [showResultList]="true"
+                                            [layout]="Layout.BIG"
+                                            [showOnlyIfRecordsFound]="false"></app-mdoc-inline-searchpage>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Alben" *ngIf="availableTabs.ALBUM">
+            <ng-template ngbTabContent>
+                <app-mdoc-inline-searchpage [label]="'Alben'"
+                                            i18n-label="label section-page ALBUM|Label section-page ALBUM@@linline-search.label.mdoc.ALBUM"
+                                            [searchLinkLabel]="'Durchsuchen'"
+                                            i18n-searchLinkLabel="searchLinkLabel section-page ALBUM|SearchLinkLabel section-page ALBUM@@linline-search.searchLinkLabel.mdoc.ALBUM"
+                                            [baseSearchUrl]="baseSearchUrl"
+                                            [params]="getFiltersForType('ALBUM', 'ratePers')"
+                                            [showForm]="false"
+                                            [showResultList]="true"
+                                            [layout]="Layout.BIG"
+                                            [showOnlyIfRecordsFound]="false"></app-mdoc-inline-searchpage>
+            </ng-template>
+        </ngb-tab>
+
+        <ngb-tab title="Genres" *ngIf="availableTabs.GENRE">
+            <ng-template ngbTabContent>
+                <app-mdoc-inline-searchpage [label]="'Genres'"
+                                            i18n-label="label section-page GENRE|Label section-page GENRE@@linline-search.label.mdoc.GENRE"
+                                            [searchLinkLabel]="'Durchsuchen'"
+                                            i18n-searchLinkLabel="searchLinkLabel section-page GENRE|SearchLinkLabel section-page GENRE@@linline-search.searchLinkLabel.mdoc.GENRE"
+                                            [baseSearchUrl]="baseSearchUrl"
+                                            [params]="getFiltersForType('GENRE', 'ratePers')"
+                                            [showForm]="false"
+                                            [showResultList]="true"
+                                            [layout]="Layout.BIG"
+                                            [showOnlyIfRecordsFound]="false"></app-mdoc-inline-searchpage>
+            </ng-template>
+        </ngb-tab>
+
+        <ngb-tab title="Playlists" *ngIf="availableTabs.PLAYLIST">
+            <ng-template ngbTabContent>
+                <app-mdoc-inline-searchpage [label]="'Playlists'"
+                                            i18n-label="label section-page PLAYLIST|Label section-page PLAYLIST@@linline-search.label.mdoc.PLAYLIST"
+                                            [searchLinkLabel]="'Durchsuchen'"
+                                            i18n-searchLinkLabel="searchLinkLabel section-page PLAYLIST|SearchLinkLabel section-page PLAYLIST@@linline-search.searchLinkLabel.mdoc.PLAYLIST"
+                                            [baseSearchUrl]="baseSearchUrl"
+                                            [params]="getFiltersForType('PLAYLIST', 'ratePers')"
+                                            [showForm]="false"
+                                            [showResultList]="true"
+                                            [layout]="Layout.BIG"
+                                            [showOnlyIfRecordsFound]="false"></app-mdoc-inline-searchpage>
+            </ng-template>
+        </ngb-tab>
+    </ngb-tabset>
+</ng-template>
+
+<ng-template #topTenContainer>
+    <ng-container *ngIf="flgShowTopTen">
+        <div class="container content-container sectionpage-topten-container">
+            <h5><span class="fx-bg-name" i18n="heading shortSearch sectionPage|Heading to shortSearch sectionPage@@heading.sectionPage.shortSearch">Schnellsuche</span></h5>
+            <div class="shortsearchform">
+                <app-mdoc-searchform [searchResult]="mdocSearchResult"
+                                     [short]="'true'"
+                                     [showForm]="true"
+                                     (search)="onSearchDoc($event)"></app-mdoc-searchform>
+            </div>
+
+            <ng-container *ngTemplateOutlet="bestMatching"></ng-container>
+            <ng-container *ngTemplateOutlet="favorites"></ng-container>
+            <ul class="nav command-container justify-content-end hidden-print">
+                <li class="command-link">
+                    <div (click)="onScrollToTop()" class="command-icon command-icon-scroll-to-top"><span></span></div>
+                </li>
+            </ul>
+        </div>
+    </ng-container>
+</ng-template>
+
+<ng-template #dashBoardContainer>
+    <ng-container *ngIf="flgShowDashboard
+     && ((availableToDoDashboardRows && objectKeys(availableToDoDashboardRows).length > 0)
+        || (availableDoneDashboardRows && objectKeys(availableDoneDashboardRows).length > 0))">
+        <div class="container content-container sectionpage-dashBoard-container">
+            <ng-container *ngTemplateOutlet="dashBoard"></ng-container>
+            <ul class="nav command-container justify-content-end hidden-print">
+                <li class="command-link">
+                    <div (click)="onScrollToTop()" class="command-icon command-icon-scroll-to-top"><span></span></div>
+                </li>
+            </ul>
+        </div>
+    </ng-container>
+</ng-template>
+
+<ng-template #adminAreaContainer>
+    <ng-container *ngIf="flgShowAdminArea">
+        <div class="container content-container sectionpage-dashBoard-container">
+            <ng-container *ngTemplateOutlet="adminArea"></ng-container>
+            <ul class="nav command-container justify-content-end hidden-print">
+                <li class="command-link">
+                    <div (click)="onScrollToTop()" class="command-icon command-icon-scroll-to-top"><span></span></div>
+                </li>
+            </ul>
+        </div>
+    </ng-container>
+</ng-template>

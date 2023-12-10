@@ -30,7 +30,7 @@ if (filePathConfigJson === undefined) {
     process.exit(-1);
 }
 
-const siteMapBaseUrl = argv['sitemapbase'] || 'https://www.myshp.de/myshp/de/';
+const siteMapBaseUrl = argv['sitemapbase'] || 'https://www.mymm.de/mymm/de/';
 
 export interface ServerConfig {
     frontendConfig: {
@@ -55,11 +55,11 @@ const app = express();
 const port = Math.floor(Math.random() * 10000 + 50000);
 AngularUniversalFrontendServerModule.configureDefaultServer(app, frontendConfig);
 app.listen(port, function () {
-    console.log('MySHP app listening on random port ' + port);
+    console.log('MyMM app listening on random port ' + port);
 });
 
 const siteBaseUrl = 'http://localhost:' + port + '/' + distProfile;
-const defaultSiteMaps = [siteMapBaseUrl + 'sitemap-pdoc-de.xml'];
+const defaultSiteMaps = [siteMapBaseUrl + 'sitemap-pdoc-de.xml', siteMapBaseUrl + 'sitemap-mdoc-de.xml'];
 const siteUrls = [];
 let notCached = 0;
 

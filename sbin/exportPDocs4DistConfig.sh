@@ -29,58 +29,58 @@ source ${SCRIPTPATH}/configure-environment.bash
 echo "start - export-pages-dist for ${CONFIGPROFILE} lang:${LANGKEY} to distdir:${DISTSTATICDIR}"
 
 # dist pdocs
-mkdir -p "${DISTSTATICDIR}myshpdev/${LANGKEY}/assets/staticdata/"
-${SCRIPTPATH}/exportPDocs.sh ${CONFIGPROFILE} "${DISTSTATICDIR}myshpdev/${LANGKEY}/assets/" "pdocs" "lang_${LANGKEY}" "profile_static"
+mkdir -p "${DISTSTATICDIR}mymmdev/${LANGKEY}/assets/staticdata/"
+${SCRIPTPATH}/exportPDocs.sh ${CONFIGPROFILE} "${DISTSTATICDIR}mymmdev/${LANGKEY}/assets/" "pdocs" "lang_${LANGKEY}" "profile_static"
 node dist/backend/serverAdmin.js\
      --adminclibackend ${CONFIG_BASEDIR}adminCli.${CONFIGPROFILE}.json\
      --backend ${CONFIG_BASEDIR}backend.${CONFIGPROFILE}.json\
      --command pageManager\
      --action exportPDocViewerFile\
-     --exportName "static.myshppdocs"\
-     --exportDir "${DISTSTATICDIR}myshpdev/${LANGKEY}/assets/staticdata/"\
-     --exportId "assets/staticdata/static.myshppdocs.js"\
+     --exportName "static.mymmpdocs"\
+     --exportDir "${DISTSTATICDIR}mymmdev/${LANGKEY}/assets/staticdata/"\
+     --exportId "assets/staticdata/static.mymmpdocs.js"\
      --profiles "profile_static" \
      --langkeys"lang_${LANGKEY}" \
      --debug 1
 
-mkdir -p "${DISTSTATICDIR}myshpbeta/${LANGKEY}/assets/staticdata/"
-${SCRIPTPATH}/exportPDocs.sh ${CONFIGPROFILE} "${DISTSTATICDIR}myshpbeta/${LANGKEY}/assets/" "pdocs" "lang_${LANGKEY}" "profile_static"
+mkdir -p "${DISTSTATICDIR}mymmbeta/${LANGKEY}/assets/staticdata/"
+${SCRIPTPATH}/exportPDocs.sh ${CONFIGPROFILE} "${DISTSTATICDIR}mymmbeta/${LANGKEY}/assets/" "pdocs" "lang_${LANGKEY}" "profile_static"
 node dist/backend/serverAdmin.js\
      --adminclibackend ${CONFIG_BASEDIR}adminCli.${CONFIGPROFILE}.json\
      --backend ${CONFIG_BASEDIR}backend.${CONFIGPROFILE}.json\
      --command pageManager\
      --action exportPDocViewerFile\
-     --exportName "static.myshppdocs"\
-     --exportDir "${DISTSTATICDIR}myshpbeta/${LANGKEY}/assets/staticdata/"\
-     --exportId "assets/staticdata/static.myshppdocs.js"\
+     --exportName "static.mymmpdocs"\
+     --exportDir "${DISTSTATICDIR}mymmbeta/${LANGKEY}/assets/staticdata/"\
+     --exportId "assets/staticdata/static.mymmpdocs.js"\
      --profiles "profile_static" \
      --langkeys"lang_${LANGKEY}" \
      --debug 1
 
-mkdir -p "${DISTSTATICDIR}myshp/${LANGKEY}/assets/staticdata/"
-${SCRIPTPATH}/exportPDocs.sh ${CONFIGPROFILE} "${DISTSTATICDIR}myshp/${LANGKEY}/assets/" "pdocs" "lang_${LANGKEY}" "profile_static"
+mkdir -p "${DISTSTATICDIR}mymm/${LANGKEY}/assets/staticdata/"
+${SCRIPTPATH}/exportPDocs.sh ${CONFIGPROFILE} "${DISTSTATICDIR}mymm/${LANGKEY}/assets/" "pdocs" "lang_${LANGKEY}" "profile_static"
 node dist/backend/serverAdmin.js\
      --adminclibackend ${CONFIG_BASEDIR}adminCli.${CONFIGPROFILE}.json\
      --backend ${CONFIG_BASEDIR}backend.${CONFIGPROFILE}.json\
      --command pageManager\
      --action exportPDocViewerFile\
-     --exportName "static.myshppdocs"\
-     --exportDir "${DISTSTATICDIR}myshp/${LANGKEY}/assets/staticdata/"\
-     --exportId "assets/staticdata/static.myshppdocs.js"\
+     --exportName "static.mymmpdocs"\
+     --exportDir "${DISTSTATICDIR}mymm/${LANGKEY}/assets/staticdata/"\
+     --exportId "assets/staticdata/static.mymmpdocs.js"\
      --profiles "profile_static" \
      --langkeys"lang_${LANGKEY}" \
      --debug 1
 
-mkdir -p "${DISTSTATICDIR}myshpviewer/${LANGKEY}/assets/staticdata"
-${SCRIPTPATH}/exportPDocs.sh ${CONFIGPROFILE} "${DISTSTATICDIR}myshpviewer/${LANGKEY}/assets/" "pdocs" "lang_${LANGKEY}" "profile_static"
+mkdir -p "${DISTSTATICDIR}mymmviewer/${LANGKEY}/assets/staticdata"
+${SCRIPTPATH}/exportPDocs.sh ${CONFIGPROFILE} "${DISTSTATICDIR}mymmviewer/${LANGKEY}/assets/" "pdocs" "lang_${LANGKEY}" "profile_static"
 node dist/backend/serverAdmin.js\
      --adminclibackend ${CONFIG_BASEDIR}adminCli.${CONFIGPROFILE}.json\
      --backend ${CONFIG_BASEDIR}backend.${CONFIGPROFILE}.json\
      --command pageManager\
      --action exportPDocViewerFile\
-     --exportName "static.myshppdocs"\
-     --exportDir "${DISTSTATICDIR}myshpviewer/${LANGKEY}/assets/staticdata/"\
-     --exportId "assets/staticdata/static.myshppdocs.js"\
+     --exportName "static.mymmpdocs"\
+     --exportDir "${DISTSTATICDIR}mymmviewer/${LANGKEY}/assets/staticdata/"\
+     --exportId "assets/staticdata/static.mymmpdocs.js"\
      --profiles "profile_viewer" \
      --langkeys"lang_${LANGKEY}" \
      --debug 1
@@ -92,8 +92,8 @@ if [ "${NOINLINE}" == "" ]; then
        --command mediaManager\
        --action inlineDataOnViewerFile\
        --inlineProfile "all"\
-       --srcFile "${DISTSTATICDIR}myshpviewer/${LANGKEY}/index.viewer.html"\
-       --outputFile "${DISTSTATICDIR}myshpviewer/${LANGKEY}/index.viewer.full.html"\
+       --srcFile "${DISTSTATICDIR}mymmviewer/${LANGKEY}/index.viewer.html"\
+       --outputFile "${DISTSTATICDIR}mymmviewer/${LANGKEY}/index.viewer.full.html"\
        --debug 1
 fi
 

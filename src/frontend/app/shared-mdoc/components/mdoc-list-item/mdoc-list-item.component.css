@@ -1,0 +1,19 @@
+div.card-block h4 {
+    font-size: 0.8rem;
+}
+div.card-block h5 {
+    font-size: 0.7rem;
+}
+div.card-block h6 {
+    font-size: 0.6rem;
+}
+button.show.btn-navigation {
+    font-size: 10px;
+}
+div.card-footer div.card-action-buttons {
+    float: right;
+}
+
+.media-isplaying {
+    border: 4px solid #8CACD3;
+}

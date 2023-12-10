@@ -2,7 +2,7 @@
     "profile": "beta",
     "port": 4002,
     "bindIp": "127.0.0.1",
-    "cacheFolder": "cache/myshpbeta/",
+    "cacheFolder": "cache/mymmbeta/",
     "redirectFileJson": "config/redirects.beta.json",
     "redirectOnlyCached": false
 }

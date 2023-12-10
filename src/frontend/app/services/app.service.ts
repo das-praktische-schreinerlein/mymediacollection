@@ -8,26 +8,45 @@ import {MinimalHttpBackendClient} from '@dps/mycms-commons/dist/commons/services
 import {CommonRoutingService} from '@dps/mycms-frontend-commons/dist/angular-commons/services/common-routing.service';
 import {PlatformService} from '@dps/mycms-frontend-commons/dist/angular-commons/services/platform.service';
 import {FallbackHttpClient} from './fallback-http-client';
+import * as Promise_serial from 'promise-serial';
 import {DataMode} from '../../shared/commons/model/datamode.enum';
 import {ToastrService} from 'ngx-toastr';
 import {PDocDataStore} from '@dps/mycms-commons/dist/pdoc-commons/services/pdoc-data.store';
 import {StaticPagesDataService} from '@dps/mycms-commons/dist/pdoc-commons/services/staticpages-data.service';
 import {StaticPagesDataStore} from '@dps/mycms-commons/dist/pdoc-commons/services/staticpages-data.store';
 import {PDocHttpAdapter} from '@dps/mycms-commons/dist/pdoc-commons/services/pdoc-http.adapter';
+import {MediaDocDataStore} from '../../shared/mdoc-commons/services/mdoc-data.store';
+import {MediaDocDataService} from '../../shared/mdoc-commons/services/mdoc-data.service';
+import {MediaDocHttpAdapter} from '../../shared/mdoc-commons/services/mdoc-http.adapter';
+import {MediaDocAdapterResponseMapper} from '../../shared/mdoc-commons/services/mdoc-adapter-response.mapper';
+import {MediaDocRecordRelation} from '../../shared/mdoc-commons/model/records/mdoc-record';
+import {ExtendedItemsJsConfig, ItemsJsDataImporter} from '@dps/mycms-commons/dist/search-commons/services/itemsjs.dataimporter';
+import {MediaDocItemsJsAdapter} from '../../../shared/mdoc-commons/services/mdoc-itemsjs.adapter';
 
 @Injectable()
 export class AppService extends GenericAppService {
     private onlineAppConfig = {
         adminBackendApiBaseUrl: environment.adminBackendApiBaseUrl,
         backendApiBaseUrl: environment.backendApiBaseUrl,
+        audioBaseUrl: environment.audioBaseUrl,
+        picsBaseUrl: environment.picsBaseUrl,
+        videoBaseUrl: environment.videoBaseUrl,
         useAssetStoreUrls: environment.useAssetStoreUrls,
+        useAudioAssetStoreUrls: environment.useAudioAssetStoreUrls,
+        useVideoAssetStoreUrls: environment.useVideoAssetStoreUrls,
+        skipMediaCheck: environment.skipMediaCheck && true,
         staticPDocsFile: undefined,
+        staticMDocsFiles: undefined,
         permissions: {
             adminWritable: environment.adminWritable,
             pdocWritable: environment.pdocWritable,
             pdocActionTagWritable: environment.pdocActionTagWritable,
+            mdocWritable: environment.mdocWritable,
+            mdocActionTagWritable: environment.mdocActionTagWritable,
+            m3uAvailable: environment.m3uAvailable,
             allowAutoPlay: environment.allowAutoPlay
         },
+        mdocMaxItemsPerAlbum: environment.mdocMaxItemsPerAlbum,
         components: {},
         services: {},
         currentDataMode: environment.startDataMode ? environment.startDataMode : DataMode.BACKEND,
@@ -37,14 +56,25 @@ export class AppService extends GenericAppService {
     private staticAppConfig = {
         adminBackendApiBaseUrl: environment.adminBackendApiBaseUrl,
         backendApiBaseUrl: environment.backendApiBaseUrl,
+        audioBaseUrl: environment.audioBaseUrl,
+        picsBaseUrl: environment.picsBaseUrl,
+        videoBaseUrl: environment.videoBaseUrl,
         staticPDocsFile: environment.staticPDocsFile,
+        staticMDocsFiles: environment.staticMDocsFiles,
         useAssetStoreUrls: environment.useAssetStoreUrls,
+        useAudioAssetStoreUrls: environment.useAudioAssetStoreUrls,
+        useVideoAssetStoreUrls: environment.useVideoAssetStoreUrls,
+        skipMediaCheck: environment.skipMediaCheck && true,
         permissions: {
             adminWritable: environment.adminWritable,
             pdocWritable: environment.pdocWritable,
             pdocActionTagWritable: environment.pdocActionTagWritable,
-            allowAutoPlay: environment.allowAutoPlay
+            mdocWritable: environment.mdocWritable,
+            mdocActionTagWritable: environment.mdocActionTagWritable,
+            allowAutoPlay: environment.allowAutoPlay,
+            m3uAvailable: environment.m3uAvailable
         },
+        mdocMaxItemsPerAlbum: environment.mdocMaxItemsPerAlbum,
         components: {},
         services: {},
         currentDataMode: environment.startDataMode ? environment.startDataMode : DataMode.STATIC,
@@ -54,14 +84,25 @@ export class AppService extends GenericAppService {
     private appConfig = {
         adminBackendApiBaseUrl: environment.adminBackendApiBaseUrl,
         backendApiBaseUrl: environment.backendApiBaseUrl,
+        audioBaseUrl: environment.audioBaseUrl,
+        picsBaseUrl: environment.picsBaseUrl,
+        videoBaseUrl: environment.videoBaseUrl,
         useAssetStoreUrls: environment.useAssetStoreUrls,
+        useAudioAssetStoreUrls: environment.useAudioAssetStoreUrls,
+        useVideoAssetStoreUrls: environment.useVideoAssetStoreUrls,
+        skipMediaCheck: environment.skipMediaCheck && true,
         staticPDocsFile: undefined,
+        staticMDocsFiles: undefined,
         permissions: {
             adminWritable: environment.adminWritable,
             pdocWritable: environment.pdocWritable,
             pdocActionTagWritable: environment.pdocActionTagWritable,
-            allowAutoPlay: environment.allowAutoPlay
+            mdocWritable: environment.mdocWritable,
+            mdocActionTagWritable: environment.mdocActionTagWritable,
+            allowAutoPlay: environment.allowAutoPlay,
+            m3uAvailable: environment.m3uAvailable
         },
+        mdocMaxItemsPerAlbum: environment.mdocMaxItemsPerAlbum,
         components: {},
         services: {},
         currentDataMode: environment.startDataMode ? environment.startDataMode : DataMode.BACKEND,
@@ -69,7 +110,8 @@ export class AppService extends GenericAppService {
         availableDataModes: environment.availableDataModes ? environment.availableDataModes : [DataMode.BACKEND]
     };
 
-    constructor(private pdocDataService: PDocDataService, private pdocDataStore: PDocDataStore,
+    constructor(private mdocDataService: MediaDocDataService, private mdocDataStore: MediaDocDataStore,
+                private pdocDataService: PDocDataService, private pdocDataStore: PDocDataStore,
                 private pagesDataService: StaticPagesDataService, private pagesDataStore: StaticPagesDataStore,
                 @Inject(LOCALE_ID) private locale: string,
                 private http: HttpClient, private commonRoutingService: CommonRoutingService,
@@ -130,14 +172,21 @@ export class AppService extends GenericAppService {
         if (DataMode.STATIC === me.appConfig.currentDataMode) {
             console.log('starting static app');
             me.appConfig = {...me.staticAppConfig};
-            return me.fallBackHttpClient.loadJsonPData('assets/staticdata/static.myshpconfig.js', 'importStaticConfigJsonP', 'config')
+            return me.fallBackHttpClient.loadJsonPData('assets/staticdata/static.mymmconfig.js', 'importStaticConfigJsonP', 'config')
                 .then(function onDocLoaded(res: any) {
                     const config: {} = res;
                     console.log('initially loaded dynamic config from assets', config);
                     me.appConfig.components = config['components'];
                     me.appConfig.services = config['services'];
+                    me.appConfig.audioBaseUrl = config['audioBaseUrl'] ? config['audioBaseUrl'] : me.appConfig.audioBaseUrl;
+                    me.appConfig.picsBaseUrl = config['picsBaseUrl'] ? config['picsBaseUrl'] : me.appConfig.picsBaseUrl;
+                    me.appConfig.videoBaseUrl = config['videoBaseUrl'] ? config['videoBaseUrl'] : me.appConfig.videoBaseUrl;
                     me.appConfig.staticPDocsFile = config['staticPDocsFile'] ? config['staticPDocsFile'] : me.appConfig.staticPDocsFile;
+                    me.appConfig.staticMDocsFiles = config['staticMDocsFiles'] ? config['staticMDocsFiles'] : me.appConfig.staticMDocsFiles;
+                    me.appConfig.skipMediaCheck = config['skipMediaCheck'] && true;
                     me.appConfig.useAssetStoreUrls = false;
+                    me.appConfig.useAudioAssetStoreUrls = false;
+                    me.appConfig.useVideoAssetStoreUrls = false;
                     me.appConfig.currentDataMode = DataMode.STATIC;
 
                     return Promise.resolve(true);
@@ -181,6 +230,12 @@ export class AppService extends GenericAppService {
         this.pagesDataService.clearLocalStore();
         this.pdocDataService.clearLocalStore();
 
+
+        const mdocAdapter = new MediaDocHttpAdapter(options);
+        this.mdocDataStore.setAdapter('http', undefined, '', {});
+        this.mdocDataService.clearLocalStore();
+        this.mdocDataStore.setAdapter('http', mdocAdapter, '', {});
+
         return new Promise<boolean>((resolve, reject) => {
             me.backendHttpClient.makeHttpRequest({ method: 'get', url: options.basePath + 'pages/', withCredentials: true })
                 .then(function onDocsLoaded(res: any) {
@@ -198,6 +253,7 @@ export class AppService extends GenericAppService {
 
                     me.pdocDataStore.setAdapter('http', pdocAdapter, '', {});
 
+                    me.mdocDataService.setWritable(me.appConfig.permissions.mdocWritable);
                     return resolve(true);
                 }).catch(function onError(reason: any) {
                     console.error('loading appdata failed:', reason);
@@ -211,16 +267,24 @@ export class AppService extends GenericAppService {
     initStaticData(): Promise<any> {
         const me = this;
         this.pagesDataStore.setAdapter('http', undefined, '', {});
-
         this.pagesDataService.clearLocalStore();
-
         this.pagesDataService.setWritable(false);
 
+        this.mdocDataStore.setAdapter('http', undefined, '', {});
+        this.pdocDataService.clearLocalStore();
+        this.mdocDataService.clearLocalStore();
+
+        me.appConfig.permissions.mdocWritable = false;
+        me.appConfig.permissions.mdocActionTagWritable = false;
         me.appConfig.permissions.adminWritable = false;
 
-        const options = { };
+        const options = { skipMediaCheck: me.appConfig.skipMediaCheck};
+        const itemsJsConfig: ExtendedItemsJsConfig = MediaDocItemsJsAdapter.itemsJsConfig;
+        itemsJsConfig.skipMediaCheck = me.appConfig.skipMediaCheck || false;
+        ItemsJsDataImporter.prepareConfiguration(itemsJsConfig);
+        const importer: ItemsJsDataImporter = new ItemsJsDataImporter(itemsJsConfig);
 
-        return me.fallBackHttpClient.loadJsonPData(me.appConfig.staticPDocsFile, 'importStaticDataPDocsJsonP', 'pdocs')
+        return  me.fallBackHttpClient.loadJsonPData(me.appConfig.staticPDocsFile, 'importStaticDataPDocsJsonP', 'pdocs')
             .then(function onPDocLoaded(data: any) {
                 if (data['pdocs']) {
                     return Promise.resolve(data['pdocs']);
@@ -238,11 +302,62 @@ export class AppService extends GenericAppService {
                 console.log('initially loaded pdocs from assets', pdocs);
 
                 me.pagesDataService.setWritable(false);
+                const promises = [];
+                for (const staticMdocsFile of me.appConfig.staticMDocsFiles) {
+                    promises.push(function () {
+                        return me.fallBackHttpClient.loadJsonPData(staticMdocsFile, 'importStaticDataMDocsJsonP', 'mdocs');
+                    });
+                }
+
+                return Promise_serial(promises, {parallelize: 1}).then(arrayOfResults => {
+                    const mdocs = [];
+                    for (let i = 0; i < arrayOfResults.length; i++) {
+                        const data = arrayOfResults[i];
+                        if (data['mdocs']) {
+                            const exportRecords = data['mdocs'].map(doc => {
+                                return importer.extendAdapterDocument(doc);
+                            });
+
+                            mdocs.push(...exportRecords);
+                            continue;
+                        }
+
+                        if (data['currentRecords']) {
+                            const responseMapper = new MediaDocAdapterResponseMapper(options);
+                            const searchRecords = data['currentRecords'].map(doc => {
+                                const record = importer.createRecordFromJson(responseMapper,
+                                    me.mdocDataStore.getMapper('mdoc'), doc, MediaDocRecordRelation);
+                                const adapterValues = responseMapper.mapToAdapterDocument({}, record);
+
+                                return importer.extendAdapterDocument(adapterValues);
+                            });
+
+                            mdocs.push(...searchRecords);
+                            continue;
+                        }
+
+                        return Promise.reject('No static mdocs found');
+                    }
+
+                    return Promise.resolve(mdocs);
+                }).catch(reason => {
+                    return Promise.reject(reason);
+                });
+            }).then(function onDocParsed(mdocs: any[]) {
+                console.log('initially loaded mdocs from assets', mdocs ? mdocs.length : 0);
+                const records = importer.mapToItemJsDocuments(mdocs);
+                const mdocAdapter = new MediaDocItemsJsAdapter(options, records, itemsJsConfig);
+
+                me.mdocDataStore.setAdapter('http', mdocAdapter, '', {});
+                me.mdocDataService.setWritable(false);
+
                 return Promise.resolve(true);
             }).catch(function onError(reason: any) {
                 console.error('loading appdata failed:', reason);
 
                 me.pagesDataService.setWritable(false);
+                me.pdocDataService.setWritable(false);
+                me.mdocDataService.setWritable(false);
 
                 return Promise.reject(false);
             });

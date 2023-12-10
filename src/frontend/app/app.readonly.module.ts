@@ -8,7 +8,6 @@ import {AngularMarkdownService} from '@dps/mycms-frontend-commons/dist/angular-c
 import {SpecificAngularMarkdownService} from './services/specific-angular-markdown.service';
 import {AngularHtmlService} from '@dps/mycms-frontend-commons/dist/angular-commons/services/angular-html.service';
 import {SpecificAngularHtmlService} from './services/specific-angular-html.service';
-import {HtmlMermaidRenderer} from '@dps/mycms-frontend-commons/dist/angular-commons/htmlrenderer/html-mermaid.renderer';
 import {HtmlLocalLinkRenderer} from '@dps/mycms-frontend-commons/dist/angular-commons/htmlrenderer/html-locallink.renderer';
 import {
     HtmlTogglerRenderer,
@@ -31,8 +30,7 @@ registerLocaleData(localeDe);
         {provide: AngularMarkdownService, useClass: SpecificAngularMarkdownService},
         {provide: AngularHtmlService, useClass: SpecificAngularHtmlService},
         HtmlLocalLinkRenderer,
-        HtmlMermaidRenderer, // TODO remove mermaid if not used to minimize build-size
-        {provide: HtmlTogglerRenderer, useClass: SimpleHtmlTogglerRenderer},
+        {provide: HtmlTogglerRenderer, useClass: SimpleHtmlTogglerRenderer}
     ],
     // Since the bootstrapped component is not inherited from your
     // imported AppModule, it needs to be repeated here.

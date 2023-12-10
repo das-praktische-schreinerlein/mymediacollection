@@ -1,0 +1,20 @@
+div.mdoc-list-item-flat {
+    width: 100%;
+    border: 1px solid #bfccd3;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+h4 {
+    font-size: 0.8rem;
+}
+h5 {
+    font-size: 0.7rem;
+}
+h6 {
+    font-size: 0.6rem;
+}
+button.show.btn-navigation {
+    font-size: 10px;
+}
+

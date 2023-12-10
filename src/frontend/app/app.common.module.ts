@@ -1,5 +1,5 @@
 import {AppComponent} from './components/app/app.component';
-import {NgbCollapseModule, NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbCollapseModule, NgbDropdownModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import {NavbarComponent} from './components/navbar/navbar.component';
 import {ToastrModule} from 'ngx-toastr';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
@@ -30,7 +30,6 @@ import {environment} from '../environments/environment';
 import {FallbackHttpClient} from './services/fallback-http-client';
 import {NgModule} from '@angular/core';
 import {AppCommonRoutingModule} from './app.common.router';
-import {CommonDocRoutingService} from '@dps/mycms-frontend-commons/dist/frontend-cdoc-commons/services/cdoc-routing.service';
 import {PDocDataService} from '@dps/mycms-commons/dist/pdoc-commons/services/pdoc-data.service';
 import {PDocDataStore} from '@dps/mycms-commons/dist/pdoc-commons/services/pdoc-data.store';
 import {PrintService} from '@dps/mycms-frontend-commons/dist/angular-commons/services/print.service';
@@ -38,6 +37,18 @@ import {SimplePrintService} from '@dps/mycms-frontend-commons/dist/angular-commo
 import {PdfGenerator, PdfPrintService} from '@dps/mycms-frontend-commons/dist/angular-commons/services/pdf-print.service';
 import {SimplePdfPrintService} from '@dps/mycms-frontend-commons/dist/angular-commons/services/simple-pdf-print.service';
 import {PrintDialogPdfGenerator} from '@dps/mycms-frontend-commons/dist/angular-commons/services/print-dialog-pdf.generator';
+import {MediaDocModule} from './mdoc/mdoc.module';
+import {MediaDocActionTagsComponent} from './shared-mdoc/components/mdoc-actiontags/mdoc-actiontags.component';
+import {MediaDocKeywordTagFormComponent} from './shared-mdoc/components/mdoc-keywordtagform/mdoc-keywordtagform.component';
+import {MediaDocDynamicComponentService} from './shared-mdoc/services/mdoc-dynamic-components.service';
+import {MediaDocAlbumService} from './shared-mdoc/services/mdoc-album.service';
+import {MediaDocDataService} from '../shared/mdoc-commons/services/mdoc-data.service';
+import {MediaDocDataStore, MediaDocTeamFilterConfig} from '../shared/mdoc-commons/services/mdoc-data.store';
+import {MediaDocDataCacheService} from './shared-mdoc/services/mdoc-datacache.service';
+import {MediaDocActionTagService} from './shared-mdoc/services/mdoc-actiontag.service';
+import {MediaDocPlaylistService} from './shared-mdoc/services/mdoc-playlist.service';
+import {AppService} from './services/app.service';
+import {GenericAppService} from '@dps/mycms-commons/dist/commons/services/generic-app.service';
 
 registerLocaleData(localeDe);
 
@@ -59,11 +70,13 @@ export function getAngulartics2Providers(): any {
         ErrorPageComponent
     ],
     entryComponents: [
+        MediaDocActionTagsComponent,
+        MediaDocKeywordTagFormComponent
     ],
     imports: [
         HttpClientModule,
-        NgbCollapseModule, NgbDropdownModule,
-        BrowserModule.withServerTransition({appId: 'pdoc-app'}),
+        NgbCollapseModule, NgbDropdownModule, NgbTooltipModule,
+        BrowserModule.withServerTransition({appId: 'mdoc-app'}),
         ToastrModule.forRoot(),
         TranslateModule.forRoot({
             loader: {
@@ -74,6 +87,7 @@ export function getAngulartics2Providers(): any {
         }),
         Angulartics2Module.forRoot(getAngulartics2Providers()),
         AngularCommonsModule,
+        MediaDocModule,
         SectionsModule,
         CookieLawModule,
         AppCommonRoutingModule
@@ -82,19 +96,27 @@ export function getAngulartics2Providers(): any {
         {provide: MinimalHttpBackendClient, useClass: BackendHttpClient},
         // customUrlSerializerProvider, // activate this to get parenthes in parameters running, but then suburls dont run anymore
         CommonRoutingService,
-        CommonDocRoutingService,
+        {provide: GenericAppService, useClass: AppService},
         FallbackHttpClient,
         DynamicComponentService,
+        MediaDocDynamicComponentService,
+        MediaDocTeamFilterConfig,
+        MediaDocDataStore,
+        MediaDocDataService,
         PDocDataStore,
         PDocDataService,
         StaticPagesDataStore,
+        MediaDocAlbumService,
         StaticPagesDataService,
+        MediaDocDataCacheService,
         SearchFormUtils,
         {provide: GenericTrackingService, useClass: TrackingService},
         {provide: SearchParameterUtils, useClass: SearchParameterUtils},
         PageUtils,
         {provide: PlatformService, useClass: PlatformService},
         LayoutService,
+        MediaDocActionTagService,
+        MediaDocPlaylistService,
         {provide: PrintService, useClass: SimplePrintService},
         // TODO if you want pdf replace PrintDialogPdfGenerator by JsPdfGenerator and move jspdf in package.json from optional to dep
         {provide: PdfGenerator, useClass: PrintDialogPdfGenerator},
@@ -102,5 +124,4 @@ export function getAngulartics2Providers(): any {
     ],
     bootstrap: [AppComponent]
 })
-export class AppCommonModule {
-}
+export class AppCommonModule {}

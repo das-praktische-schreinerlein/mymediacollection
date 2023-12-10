@@ -1,0 +1,253 @@
+<form [formGroup]="editFormGroup" class="form-control-sm" (ngSubmit)="submitSave($event)" *ngIf="record !== undefined">
+    <ng-container [ngSwitch]="record.type">
+        <ng-container *ngSwitchCase="'ALBUM'">
+            <ng-container *ngTemplateOutlet="formAlbum"></ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'ARTIST'">
+            <ng-container *ngTemplateOutlet="formArtist"></ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'AUDIO'">
+            <ng-container *ngTemplateOutlet="formAudio"></ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'GENRE'">
+            <ng-container *ngTemplateOutlet="formGenre"></ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'PLAYLIST'">
+            <ng-container *ngTemplateOutlet="formPlaylist"></ng-container>
+        </ng-container>
+    </ng-container>
+
+    <ng-template #formAlbum>
+        <fieldset>
+            <legend i18n="base label|Label for fieldset: base@@label.editform.mdoc.legend.base">&#x26bd; Stammdaten</legend>
+            <div class="row">
+                <ng-container *ngTemplateOutlet="inputName"></ng-container>
+            </div>
+            <div class="row">
+                <ng-container *ngTemplateOutlet="inputGenre"></ng-container>
+            </div>
+            <div class="row">
+                <ng-container *ngTemplateOutlet="inputArtist"></ng-container>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend i18n="dataAdditionalData label|Label for fieldset: dataAdditionalData@@label.editform.mdoc.legend.dataAdditionalData">&#x231a; Zusatzdaten</legend>
+            <div class="row">
+                <ng-container *ngFor="let idx of joinIndexes['linkedArtists']">
+                    <ng-container *ngTemplateOutlet="inputLinkedArtist;context:{key: 'linkedArtist', idx: idx, joinName: 'linkedArtists'}"></ng-container>
+                </ng-container>
+            </div>
+        </fieldset>
+        <fieldset>
+            <div class="row">
+                <ng-container *ngTemplateOutlet="inputKeywords"></ng-container>
+            </div>
+        </fieldset>
+        <ng-container *ngTemplateOutlet="submitRow"></ng-container>
+    </ng-template>
+
+    <ng-template #formArtist>
+        <fieldset>
+            <legend i18n="base label|Label for fieldset: base@@label.editform.mdoc.legend.base">&#x26bd; Stammdaten</legend>
+            <div class="row">
+                <ng-container *ngTemplateOutlet="inputName"></ng-container>
+            </div>
+            <div class="row">
+                <ng-container *ngTemplateOutlet="inputGenre"></ng-container>
+            </div>
+        </fieldset>
+        <fieldset>
+            <div class="row">
+                <ng-container *ngTemplateOutlet="inputKeywords"></ng-container>
+            </div>
+        </fieldset>
+        <ng-container *ngTemplateOutlet="submitRow"></ng-container>
+    </ng-template>
+
+    <ng-template #formAudio>
+        <fieldset>
+            <legend i18n="base label|Label for fieldset: base@@label.editform.mdoc.legend.base">&#x26bd; Stammdaten</legend>
+            <div class="row">
+                <ng-container *ngTemplateOutlet="inputName"></ng-container>
+            </div>
+            <div class="row">
+                <ng-container *ngTemplateOutlet="inputGenre"></ng-container>
+            </div>
+            <div class="row">
+                <ng-container *ngTemplateOutlet="inputArtist"></ng-container>
+            </div>
+            <div class="row">
+                <ng-container *ngTemplateOutlet="inputAlbum"></ng-container>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend i18n="ratePersCharacter label|Label for fieldset: ratePersCharacter@@label.editform.mdoc.legend.ratePersCharacter">&#x2764; persönliche Bewertung: Charakter</legend>
+            <div class="row">
+                <ng-container *ngTemplateOutlet="selectPersRate;context:{key: 'mdocratepers.gesamt_audio', formControlName: 'mdocratepers_gesamt'}"></ng-container>
+            </div>
+        </fieldset>
+        <fieldset>
+            <div class="row">
+                <ng-container *ngTemplateOutlet="inputKeywords"></ng-container>
+            </div>
+        </fieldset>
+        <ng-container *ngTemplateOutlet="submitRow"></ng-container>
+    </ng-template>
+
+    <ng-template #formGenre>
+        <fieldset>
+            <legend i18n="base label|Label for fieldset: base@@label.editform.mdoc.legend.base">&#x26bd; Stammdaten</legend>
+            <div class="row">
+                <ng-container *ngTemplateOutlet="inputName"></ng-container>
+            </div>
+        </fieldset>
+        <ng-container *ngTemplateOutlet="submitRow"></ng-container>
+    </ng-template>
+
+    <ng-template #formPlaylist>
+        <fieldset>
+            <legend i18n="base label|Label for fieldset: base@@label.editform.mdoc.legend.base">&#x26bd; Stammdaten</legend>
+            <div class="row">
+                <ng-container *ngTemplateOutlet="inputName"></ng-container>
+            </div>
+        </fieldset>
+        <ng-container *ngTemplateOutlet="submitRow"></ng-container>
+    </ng-template>
+
+    <ng-template #inputName>
+        <div class="col-sm-6 form-inline input-group input-group-sm">
+            <label class="col-xs-3 col-form-label mr-2" i18n="name label|Label for field: name@@label.editform.mdoc.name">Name:</label>
+            <input formControlName="name" required="required" class="form-control" type="text" placeholder="name" i18n-placeholder="name placeholder|Placeholder for name@@placeholder.form.mdoc.name">
+            <span class="" (click)="recommendName()">&#x27F8; Generate</span>
+        </div>
+    </ng-template>
+
+    <ng-template #inputDateShow>
+        <div class="col-sm-4 form-inline input-group input-group-sm">
+            <label class="col-xs-3 col-form-label mr-2" i18n="dateshow label|Label for field: dateshow@@label.editform.mdoc.dateshow">Anzeigedatum:</label>
+            <input formControlName="dateshow" required="required" type="datetime-local" placeholder="dateshow" i18n-placeholder="dateshow placeholder|Placeholder for dateshow@@placeholder.form.mdoc.dateshow">
+        </div>
+    </ng-template>
+
+    <ng-template #inputDesc>
+        <div class="col-sm-12 form-inline input-group input-group-sm">
+            <label class="col-xs-3 col-form-label mr-2" i18n="descMd label|Label for field: descMd@@label.editform.mdoc.descMd">Beschreibung Markdown:</label>
+            <textarea formControlName="descTxt" class="form-control" type="text" placeholder="description" i18n-placeholder="desc placeholder|Placeholder for desc@@placeholder.form.mdoc.desc"></textarea>
+        </div>
+    </ng-template>
+
+    <ng-template #inputNumber let-key="key" let-formControlName="formControlName" let-recommend="recommend">
+        <div class="col-sm-3 form-inline input-group input-group-sm">
+            <label class="col-xs-3 col-form-label mr-2">{{ 'label.' + key | translate}}</label>
+            <input formControlName="{{formControlName}}" class="form-control" type="number" step="0.01" placeholder="{{key}}">
+            <span class="" *ngIf="recommend && editFormGroup.get(formControlName).value != recommend" (click)="setValue(formControlName, recommend)">&#x27F8; {{recommend}} GPX</span>
+        </div>
+    </ng-template>
+
+    <ng-template #inputTextTech let-key="key" let-formControlName="formControlName">
+        <div class="col-sm-3 form-inline input-group input-group-sm">
+            <label class="col-xs-3 col-form-label mr-2">{{ 'label.' + key | translate}}</label>
+            <input formControlName="{{formControlName}}" class="form-control" type="text" placeholder="{{key}}" [attr.list]="formControlName">
+            <datalist [attr.id]="formControlName" *ngIf="inputSuggestionValues[formControlName]">
+                <option *ngFor="let suggestion of inputSuggestionValues[formControlName]">{{suggestion}}</option>
+            </datalist>
+        </div>
+    </ng-template>
+
+    <ng-template #inputText let-key="key" let-formControlName="formControlName">
+        <div class="col-sm-6 form-inline input-group input-group-sm">
+            <label class="col-xs-3 col-form-label mr-2">{{ 'label.' + key | translate}}</label>
+            <input formControlName="{{formControlName}}" class="form-control" type="text" placeholder="{{key}}" [attr.list]="formControlName">
+            <datalist [attr.id]="formControlName" *ngIf="inputSuggestionValues[formControlName]">
+                <option *ngFor="let suggestion of inputSuggestionValues[formControlName]">{{suggestion}}</option>
+            </datalist>
+        </div>
+    </ng-template>
+
+    <ng-template #selectPersRate let-key="key" let-formControlName="formControlName">
+        <div class="col-sm-3 input-group input-group-sm">
+            <label class="col-xs-3 col-form-label mr-2">{{ 'label.' + key | translate}}</label>
+            <ss-multiselect-dropdown [options]="optionsSelect[key]"
+                                     [settings]="settingsSelectPersRate"
+                                     [texts]="textsSelectPersRate"
+                                     formControlName="{{formControlName}}"
+                                     ngDefaultControl
+                                     class="ss-multiselect-dropdown ss-multiselect-dropdown-fullwidth"></ss-multiselect-dropdown>
+        </div>
+    </ng-template>
+
+    <ng-template #inputKeywords>
+        <div class="col-sm-12 form-inline input-group input-group-sm">
+            <label class="col-xs-3 col-form-label mr-2" i18n="keywords label|Label for field: keywords@@label.editform.mdoc.keywords">Keywords:</label>
+            <textarea formControlName="keywords" class="form-control" type="text" placeholder="keywords" i18n-placeholder="keywords placeholder|Placeholder for keywords@@placeholder.form.mdoc.keywords"></textarea>
+        </div>
+        <div class="col-sm-12 form-inline input-group input-group-sm">
+            <app-tdoc-keywordsstate [keywords]="editFormGroup.getRawValue()['keywords']" [suggestions]="keywordSuggestions"
+                                    (setKeyword)="setKeyword($event)" (unsetKeyword)="unsetKeyword($event)"></app-tdoc-keywordsstate>
+        </div>
+    </ng-template>
+
+    <ng-template #submitRow>
+        <div class="row">
+            <div class="col-sm-12 form-inline input-group input-group-sm">
+                <button type="submit" (click)="submitSave($event, false)" class="btn btn-action btn-sm" i18n="button edit mdoc|Buttontext to edit mdoc@@button.form.mdoc.edit">Save</button>
+                <button type="submit" (click)="submitSave($event, true)" *ngIf="backToSearch" class="btn btn-action btn-sm" i18n="button editAndSearch mdoc|Buttontext to editAndSearch mdoc@@button.form.mdoc.editAndSearch">Save and Search</button>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #inputGenre>
+        <div class="col-sm-6 input-group input-group-sm">
+            <label class="col-xs-3 col-form-label mr-2" i18n="genre label|Label for filter: where@@label.searchform.mdoc.genre">Genre:</label>
+            <ss-multiselect-dropdown [options]="optionsSelect['genreId']"
+                                     [settings]="settingsSelectGenre"
+                                     [texts]="textsSelectGenre"
+                                     class="ss-multiselect-dropdown ss-multiselect-dropdown-fullwidth"
+                                     required="required"
+                                     formControlName="genreId"
+                                     ngDefaultControl></ss-multiselect-dropdown>
+        </div>
+    </ng-template>
+
+    <ng-template #inputArtist>
+        <div class="col-sm-6 input-group input-group-sm">
+            <label class="col-xs-3 col-form-label mr-2" i18n="artist label|Label for filter: where@@label.searchform.mdoc.artist">Artist:</label>
+            <ss-multiselect-dropdown [options]="optionsSelect['artistId']"
+                                     [settings]="settingsSelectArtist"
+                                     [texts]="textsSelectArtist"
+                                     class="ss-multiselect-dropdown ss-multiselect-dropdown-fullwidth"
+                                     required="required"
+                                     formControlName="artistId"
+                                     ngDefaultControl></ss-multiselect-dropdown>
+        </div>
+    </ng-template>
+
+    <ng-template #inputAlbum>
+        <div class="col-sm-6 input-group input-group-sm">
+            <label class="col-xs-3 col-form-label mr-2" i18n="album label|Label for filter: where@@label.searchform.mdoc.album">Album:</label>
+            <ss-multiselect-dropdown [options]="optionsSelect['albumId']"
+                                     [settings]="settingsSelectAlbum"
+                                     [texts]="textsSelectAlbum"
+                                     class="ss-multiselect-dropdown ss-multiselect-dropdown-fullwidth"
+                                     required="required"
+                                     formControlName="albumId"
+                                     ngDefaultControl></ss-multiselect-dropdown>
+        </div>
+    </ng-template>
+
+    <ng-template #inputLinkedArtist let-key="key" let-idx="idx" let-joinName="joinName">
+        <div class="col-sm-6 input-group input-group-sm">
+            <label class="col-xs-3 col-form-label mr-2" i18n="linkedArtistsId label|Label for filter: linkedArtistsId@@label.searchform.mdoc.linkedArtistsId">LinkedArtists:</label>
+            <ss-multiselect-dropdown [options]="optionsSelect['artistId']"
+                                     [settings]="settingsSelectArtist"
+                                     [texts]="textsSelectArtist"
+                                     (onAdded)="joinElementChanged($event, joinName, idx, true)"
+                                     (onRemoved)="joinElementChanged($event, joinName, idx, false)"
+                                     class="ss-multiselect-dropdown ss-multiselect-dropdown-fullwidth"
+                                     required="required"
+                                     formControlName="{{joinName + 'Id' + idx}}"
+                                     ngDefaultControl></ss-multiselect-dropdown>
+        </div>
+    </ng-template>
+
+</form>

@@ -10,6 +10,6 @@ For more information take a look at documentation:
 - [usage instructions](docs/DATAIMPORT.md)
 - [credits for used libraries](docs/CREDITS.md)
 
-MyMediaCollection bases on mysimplehomepage-4.0.0 and mytourbook-7.0.0.
+MyMediaCollection bases on mysimplehomepage-5.0.0 and mytourbook-7.5.0.
 
 ![searchpage](docs/images/searchpage-x400.png)

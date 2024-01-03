@@ -149,12 +149,14 @@
     "@babel/runtime": "fixed to prevent 'TypeError: l is undefined' on viewer and builded versions",
     "@babel/runtime-corejs3": "fixed to prevent 'TypeError: l is undefined' on viewer and builded versions",
     "core-js-pure": "fixed to prevent 'TypeError: l is undefined' on viewer and builded versions",
+    "jspdf": "fixed to 2.3.1 because all newer till 2.5.1 versions cant gerenate pdf https://github.com/parallax/jsPDF/issues/3315",
     "mermaid": "// TODO remove mermaid if not used to minimize build-size"
   },
   "optionalDeps // do copy these to deps if needed": {
     "db-migrate-mysql": "2.2.0",
     "mermaid": "8.14.0",
     "// TODO if you want pdf replace PrintDialogPdfGenerator by JsPdfGenerator and move jspdf in package.json from optional to dep": "",
+    "jspdf": "2.3.1",
     "mysql": "2.18.1"
   },
   "dependencies": {

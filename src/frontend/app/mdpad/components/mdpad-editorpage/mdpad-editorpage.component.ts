@@ -20,6 +20,7 @@ import {CommonRoutingService, RoutingState} from '@dps/mycms-frontend-commons/di
 
 export interface MarkdownPadEditorPageComponentConfig {
     editorCommands: CommonDocEditorCommandComponentConfig;
+    sampleDesc: string;
 }
 
 @Component({
@@ -38,7 +39,7 @@ export class MarkdownPadEditorPageComponent
     };
 
     defaultDescMd = '';
-    defaultDescMdRecommended = '';
+    sampleDesc = '';
     renderedDescId: string = undefined;
 
     @ViewChild('editorTop')
@@ -111,6 +112,8 @@ export class MarkdownPadEditorPageComponent
             singleCommands: [],
             commandBlocks: []
         };
+        let sampleDesc = '';
+
         if (BeanUtils.getValue(config, 'components.pdoc-editor-commands.singleCommands')) {
             editorCommands.singleCommands = BeanUtils.getValue(config, 'components.pdoc-editor-commands.singleCommands');
         }
@@ -120,9 +123,13 @@ export class MarkdownPadEditorPageComponent
         if (BeanUtils.getValue(config, 'components.pdoc-editor-commands.commandBlocks')) {
             editorCommands.commandBlocks = BeanUtils.getValue(config, 'components.pdoc-editor-commands.commandBlocks');
         }
+        if (BeanUtils.getValue(config, 'components.pdoc-editor-commands.sampleDesc')) {
+            sampleDesc = BeanUtils.getValue(config, 'components.pdoc-editor-commands.sampleDesc');
+        }
 
         const defaultConfig: MarkdownPadEditorPageComponentConfig = {
-            editorCommands: editorCommands
+            editorCommands: editorCommands,
+            sampleDesc: sampleDesc
         };
 
         return defaultConfig;
@@ -131,6 +138,7 @@ export class MarkdownPadEditorPageComponent
     protected configureComponent(config: {}): void {
         const componentConfig = this.getComponentConfig(config);
         this.editorCommands = componentConfig.editorCommands;
+        this.sampleDesc = componentConfig.sampleDesc;
     }
 
     protected configureProcessing(config: {}): void {

@@ -54,6 +54,10 @@ import {MediaDocAssignFormComponent} from './shared-admin-mdoc/components/mdoc-a
 import {MediaDocActionTagService} from './shared-mdoc/services/mdoc-actiontag.service';
 import {SharedAdminMediaDocModule} from './shared-admin-mdoc/shared-admin-mdoc.module';
 import {MediaDocAdminActionTagService} from './shared-admin-mdoc/services/mdoc-admin-actiontag.service';
+import {GenericAppService} from '@dps/mycms-commons/dist/commons/services/generic-app.service';
+import {AppService} from './services/app.service';
+import {PdfGenerator} from '@dps/mycms-frontend-commons/dist/angular-commons/services/pdf-print.service';
+import {PrintDialogPdfGenerator} from '@dps/mycms-frontend-commons/dist/angular-commons/services/print-dialog-pdf.generator';
 
 registerLocaleData(localeDe);
 
@@ -84,6 +88,8 @@ registerLocaleData(localeDe);
         PDocNameSuggesterService,
         PDocDescSuggesterService,
         PDocPageDescSuggesterService,
+        // TODO if you want pdf replace PrintDialogPdfGenerator by JsPdfGenerator and move jspdf in package.json from optional to dep
+        {provide: PdfGenerator, useClass: PrintDialogPdfGenerator},
         {provide: MediaDocActionTagService, useClass: MediaDocAdminActionTagService},
         {provide: AngularMarkdownService, useClass: SpecificAngularMarkdownService},
         {provide: AngularHtmlService, useClass: SpecificAngularHtmlService},

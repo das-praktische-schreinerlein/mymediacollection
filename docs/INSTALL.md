@@ -3,7 +3,7 @@
 ## prepare
 
 ### prepare build-scripts
-- build-dev.bash, build-beta.bash, build-prod.bash, build-viewer.bash
+- build-dev.bash, build-beta.bash, build-prod.bash, build-viewer.bash, build-mdpad.bash
 ```bash
 #!/usr/bin/env bash
 

@@ -14,6 +14,7 @@
     "apiRoutePicturesStaticEnabled": false,
     "apiRouteVideosStaticDir": "F:/playground/mymm-test/mymmmediabase/videos",
     "apiRouteVideosStaticEnabled": false,
+    "apiRoutePdfsStaticDir": "F:/playground/mymm-test/mymmmediabase/pdfs/",
     "apiRouteStoredAudios": "/audiostore/",
     "apiRouteStoredPictures": "/picturestore/",
     "apiRouteStoredPicturesResolutionPrefix": "pics_",
@@ -30,6 +31,7 @@
     "imageMagicAppPath": "F:\\ProgrammeShared\\ImageMagick\\",
     "nodejsBinaryPath": "node",
     "inlineJsPath": "devtools/create-allinone-html.js",
+    "webshot2pdfCommandPath": "F:\\Projekte\\MatPublishingTools\\dist-js\\webshot2pdf.js",
     "mapperConfig": {
         "allowedKeywordPatterns": ["KW_.*", "Genre_*", "Artist_*"],
         "replaceKeywordPatterns": []

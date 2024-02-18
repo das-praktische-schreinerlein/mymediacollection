@@ -1639,6 +1639,22 @@
                 "list-item-flat-big": "short",
                 "show-big": "long"
             }
+        },
+        "pdoc-create-resolver": {
+            "nameReplacements": [
+                [" \\d\\d\\.\\d\\d\\.\\d\\d\\d\\d", ""],
+                [" mit .*? (ab |am |an |auf |bei |durch |im |in |nach |von |zur |zum )+", "$1"]
+            ]
+        },
+        "pdoc-page-desc-suggester": {
+            "nameReplacements": [
+                [" \\d\\d\\.\\d\\d\\.\\d\\d\\d\\d", ""],
+                [" mit .*? (ab |am |an |auf |bei |durch |im |in |nach |von |zur |zum )+", "$1"]
+            ],
+            "listItemTemplate": "- [{{LISTITEM.name}}](pdoc/show/page/{{LISTITEM.id}})\n",
+            "listItemsFallbackTemplate": "",
+            "footerTemplate": "\nHier könnte Ihre Werbung stehen :-)\n",
+            "headingTemplate": "\nInhalt der Seite: {{MAINITEM.name}}\n"
         }
     },
     "services": {

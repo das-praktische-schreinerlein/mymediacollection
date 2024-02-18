@@ -8,6 +8,7 @@ import {PageManagerCommand} from '@dps/mycms-server-commons/dist/pdoc-backend-co
 import {MediaDocLoaderCommand} from './mdoc-loader.command';
 import {MediaDocExporterCommand} from './mdoc-exporter.command';
 import {MediaManagerCommand} from './media-manager.command';
+import {PDocPdfManagerCommand} from '@dps/mycms-server-commons/dist/pdoc-backend-commons/commands/pdoc-pdf-manager.command';
 
 export interface ServerAdminCommandConfigType extends CommonServerAdminCommandConfigType, AdminCommandConfigType {
     importDir: string,
@@ -27,6 +28,7 @@ export class ServerAdminCommandManager extends CommonServerAdminCommandManager<S
                 'loadMediaDoc': new MediaDocLoaderCommand(),
                 'exportMediaDoc': new MediaDocExporterCommand(),
                 'mediaManager': new MediaManagerCommand(),
+                'pdocPdfManager': new PDocPdfManagerCommand(),
                 'pageManager': new PageManagerCommand(),
             },
             adminCommandConfig,

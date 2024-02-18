@@ -11,6 +11,7 @@ import {ExtendedConfigInitializerCommand} from './extendedconfig-initializer.com
 import {MediaDocLoaderCommand} from './mdoc-loader.command';
 import {MediaDocExporterCommand} from './mdoc-exporter.command';
 import {MediaManagerCommand} from './media-manager.command';
+import {PDocPdfManagerCommand} from '@dps/mycms-server-commons/dist/pdoc-backend-commons/commands/pdoc-pdf-manager.command';
 
 // tslint:disable-next-line:no-empty-interface
 export interface AdminCommandConfigType extends CommonAdminCommandConfigType {
@@ -27,6 +28,7 @@ export class AdminCommandManager extends CommonAdminCommandManager<AdminCommandC
             'loadMediaDoc': new MediaDocLoaderCommand(),
             'loadPDoc': new PDocLoaderCommand(),
             'mediaManager': new MediaManagerCommand(),
+            'pdocPdfManager': new PDocPdfManagerCommand(),
             'pageManager': new PageManagerCommand()
         }, adminCommandConfig);
     }

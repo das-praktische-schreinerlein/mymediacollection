@@ -6,7 +6,7 @@
                                 (show)="submitBackToShow()"></app-mdoc-list-item>
         </div>
         <br clear="all" />
-        <div class="card-footer text-right" style="width: 100%">
+        <div class="card-footer text-right hidden-print" style="width: 100%">
             <div class="card-action-buttons align-bottom btn-group" role="group" aria-label="Actions">
                 <app-mdoc-action [record]="record" [type]="'actionTagsBig'" (actionTagEvent)="onActionTagEvent($event)"></app-mdoc-action>
                 <a [href]="getBackToShowUrl()" (click)="submitBackToShow()" class="btn btn-action btn-sm"

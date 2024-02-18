@@ -23,9 +23,9 @@
                                                      [categories]="['ENTITYCOUNT']"
                                                      [profile]="'show-big'"></app-cdoc-extended-object-properties>
             </div>
-            <br clear="all" />
+            <span class="small-linebreak" style="line-height: 1px;display: block;"><br clear="all"/></span>
         </div>
-        <div class="card-footer text-right" style="width: 100%">
+        <div class="card-footer text-right hidden-print" style="width: 100%">
             <div class="card-action-buttons align-bottom btn-group" role="group" aria-label="Actions">
                 <app-mdoc-action [record]="record" [type]="'actionTagsBig'" (actionTagEvent)="onActionTagEvent($event)"></app-mdoc-action>
                 <app-cdoc-object-navigation [baseSearchUrl]="'mdoc/'" [navigationobjects]="record.mdocnavigationobjects"></app-cdoc-object-navigation>

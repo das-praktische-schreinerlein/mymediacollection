@@ -131,6 +131,10 @@ export class SqlMediaDbArtistConfig {
             'b_key as key',
             'b_rate',
             'CONCAT(b_name, " - ", mr_name) AS html',
+            // changelog
+            'b_createdat',
+            'b_updatedat',
+            'b_updateversion'
         ],
         facetConfigs: {
             // dashboard
@@ -289,6 +293,13 @@ export class SqlMediaDbArtistConfig {
                 noFacet: true
             }
         },
+        changelogConfig: {
+            createDateField: 'b_createdat',
+            updateDateField: 'b_updatedat',
+            updateVersionField: 'b_updateversion',
+            table: 'bands',
+            fieldId: 'b_id'
+        },
         sortMapping: {
             'countAlbums': '(SELECT COUNT(DISTINCT a_sort.a_id) FROM album a_sort' +
                 '      LEFT JOIN album_bands ab_sort ON a_sort.a_id = ab_sort.a_id' +
@@ -303,7 +314,9 @@ export class SqlMediaDbArtistConfig {
             'forExport': 'bands.b_id ASC',
             'name': 'bands.b_name ASC',
             'ratePers': 'bands.b_rate DESC',
-            'relevance': 'bands.b_id DESC'
+            'relevance': 'bands.b_id DESC',
+            'createdAt': 'b_createdat DESC, bands.b_id DESC',
+            'updatedAt': 'b_updatedat DESC, bands.b_id DESC'
         },
         filterMapping: {
             // dashboard
@@ -316,6 +329,9 @@ export class SqlMediaDbArtistConfig {
             todoKeywords: 'keyword.kw_name',
             unrated: 'bands.b_rate',
             unRatedChildren: '"unRatedChildren"',
+            // changelog
+            createdafter_dt: 'b_createdat',
+            updatedafter_dt: 'b_updatedat',
             // others
             id: 'bands.b_id',
             album_id_i: 'album.a_id',
@@ -356,12 +372,17 @@ export class SqlMediaDbArtistConfig {
             rate_pers_gesamt_i: 'b_rate',
             key_s: 'key',
             type_s: 'type',
-            subtype_s: 'subtype'
+            subtype_s: 'subtype',
+            // changelog
+            createdat_dt: 'b_createdat',
+            updatedat_dt: 'b_updatedat',
+            updateversion_i: 'b_updateversion'
         }
     };
 
     public static readonly keywordModelConfigType: KeywordModelConfigJoinType = {
-        table: 'bands', joinTable: 'bands_keyword', fieldReference: 'b_id'
+        table: 'bands', joinTable: 'bands_keyword', fieldReference: 'b_id',
+        changelogConfig: SqlMediaDbArtistConfig.tableConfig.changelogConfig
     };
 
     public static readonly rateModelConfigType: RateModelConfigTableType = {
@@ -370,7 +391,8 @@ export class SqlMediaDbArtistConfig {
         rateFields: {
             'gesamt': 'b_rate'
         },
-        fieldSum: undefined
+        fieldSum: undefined,
+        changelogConfig: SqlMediaDbArtistConfig.tableConfig.changelogConfig
     };
 
     public static readonly actionTagAssignConfig: ActionTagAssignTableConfigType = {
@@ -383,11 +405,13 @@ export class SqlMediaDbArtistConfig {
             'artist_id_is': {
                 table: 'bands', idField: 'b_id', referenceField: 'b_id'
             }
-        }
+        },
+        changelogConfig: SqlMediaDbArtistConfig.tableConfig.changelogConfig
     };
 
     public static readonly actionTagBlockConfig: ActionTagBlockTableConfigType = {
-        table: 'bands', idField: 'b_id', blockField: 'b_blocked'
+        table: 'bands', idField: 'b_id', blockField: 'b_blocked',
+        changelogConfig: SqlMediaDbArtistConfig.tableConfig.changelogConfig
     };
 
     public static readonly actionTagReplaceConfig: ActionTagReplaceTableConfigType = {
@@ -400,7 +424,8 @@ export class SqlMediaDbArtistConfig {
         ],
         joins: [
             { table: 'bands_keyword', fieldReference: 'b_id' }
-        ]
+        ],
+        changelogConfig: SqlMediaDbArtistConfig.tableConfig.changelogConfig
     };
 }
 

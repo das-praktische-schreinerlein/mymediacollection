@@ -95,6 +95,11 @@ export class MediaDocAdapterResponseMapper implements GenericAdapterResponseMapp
             this.mapDetailDataToAdapterDocument({}, 'linkedplaylists', props, values);
         }
 
+        // changelog
+        values['createdat_dt'] = props.createdAt;
+        values['updatedat_dt'] = props.updatedAt;
+        values['updateversion_i'] = props.updateVersion;
+
         return values;
     }
 
@@ -199,6 +204,11 @@ export class MediaDocAdapterResponseMapper implements GenericAdapterResponseMapp
             .split(',,').join(', ');
         values['subtype'] = this.mapperUtils.getMappedAdapterValue(mapping, doc, 'subtype_s', undefined);
         values['type'] = this.mapperUtils.getMappedAdapterValue(mapping, doc, 'type_s', undefined);
+
+        // changelog
+        values['createdAt'] = this.mapperUtils.getMappedAdapterDateTimeValue(mapping, doc, 'createdat_dt', undefined);
+        values['updatedAt'] = this.mapperUtils.getMappedAdapterDateTimeValue(mapping, doc, 'updatedat_dt', undefined);
+        values['updateVersion'] = this.mapperUtils.getMappedAdapterNumberValue(mapping, doc, 'updateversion_i', undefined);
 
         // console.log('mapResponseDocument values:', values);
         const record: MediaDocRecord = <MediaDocRecord>mapper.createRecord(

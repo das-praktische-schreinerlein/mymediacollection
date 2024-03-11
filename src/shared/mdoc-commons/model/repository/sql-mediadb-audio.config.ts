@@ -123,6 +123,10 @@ export class SqlMediaDbAudioConfig {
             'CONCAT(titles.t_dir, "/", titles.t_coverfile) AS i_fav_url_txt',
             't_name AS name',
             'CONCAT(musikrichtung.mr_name, " - ", bands.b_name, " - ", album.a_name, " - ", t_name) AS html',
+            // changelog
+            't_createdat',
+            't_updatedat',
+            't_updateversion'
         ],
         facetConfigs: {
             // dashboard
@@ -320,6 +324,13 @@ export class SqlMediaDbAudioConfig {
                 orderBy: 'value asc'
             },
         },
+        changelogConfig: {
+            createDateField: 't_createdat',
+            updateDateField: 't_updatedat',
+            updateVersionField: 't_updateversion',
+            table: 'titles',
+            fieldId: 't_id'
+        },
         sortMapping: {
             'forExport': 'titles.t_id ASC',
             'name': 't_key ASC, bands.b_key ASC, album.a_key ASC',
@@ -329,7 +340,9 @@ export class SqlMediaDbAudioConfig {
             'file': 'a_fav_url_txt ASC',
             'ratePers': 'titles.t_rate DESC',
             'playlistPos': 'titles_playlist.tp_pos ASC',
-            'relevance': 'bands.b_key ASC, album.a_key ASC, COALESCE(t_tracknr, 999) ASC, t_name ASC'
+            'relevance': 'bands.b_key ASC, album.a_key ASC, COALESCE(t_tracknr, 999) ASC, t_name ASC',
+            'createdAt': 't_createdat DESC, titles.t_id DESC',
+            'updatedAt': 't_updatedat DESC, titles.t_id DESC'
         },
         filterMapping: {
             // dashboard
@@ -343,6 +356,9 @@ export class SqlMediaDbAudioConfig {
             todoKeywords: 'keyword.kw_name',
             unrated: 'titles.t_rate',
             unRatedChildren: '"666dummy999"',
+            // changelog
+            createdafter_dt: 't_createdat',
+            updatedafter_dt: 't_updatedat',
             // others
             id: 'titles.t_id',
             album_id_i: 'titles.a_id',
@@ -411,16 +427,22 @@ export class SqlMediaDbAudioConfig {
             type_s: 'type',
             subtype_s: 'subtype',
             a_fav_url_txt: 'a_fav_url_txt',
-            i_fav_url_txt: 'i_fav_url_txt'
+            i_fav_url_txt: 'i_fav_url_txt',
+            // changelog
+            createdat_dt: 't_createdat',
+            updatedat_dt: 't_updatedat',
+            updateversion_i: 't_updateversion'
         }
     };
 
     public static readonly keywordModelConfigType: KeywordModelConfigJoinType = {
-        table: 'titles', joinTable: 'titles_keyword', fieldReference: 't_id'
+        table: 'titles', joinTable: 'titles_keyword', fieldReference: 't_id',
+        changelogConfig: SqlMediaDbAudioConfig.tableConfig.changelogConfig
     };
 
     public static readonly playlistModelConfigType: PlaylistModelConfigJoinType = {
-        table: 'titles', joinTable: 'titles_playlist', fieldReference: 't_id', positionField: 'tp_pos'
+        table: 'titles', joinTable: 'titles_playlist', fieldReference: 't_id', positionField: 'tp_pos',
+        changelogConfig: SqlMediaDbAudioConfig.tableConfig.changelogConfig
     };
 
     public static readonly rateModelConfigType: RateModelConfigTableType = {
@@ -429,7 +451,8 @@ export class SqlMediaDbAudioConfig {
         rateFields: {
             'gesamt': 't_rate'
         },
-        fieldSum: undefined
+        fieldSum: undefined,
+        changelogConfig: SqlMediaDbAudioConfig.tableConfig.changelogConfig
     };
 
     public static readonly rateModelConfigTypeAlbumAudios: RateModelConfigTableType = {
@@ -438,7 +461,8 @@ export class SqlMediaDbAudioConfig {
         rateFields: {
             'gesamt': 't_rate'
         },
-        fieldSum: undefined
+        fieldSum: undefined,
+        changelogConfig: SqlMediaDbAudioConfig.tableConfig.changelogConfig
     };
 
     public static readonly actionTagAssignConfig: ActionTagAssignTableConfigType = {
@@ -454,11 +478,13 @@ export class SqlMediaDbAudioConfig {
             'album_id_is': {
                 table: 'album', idField: 'a_id', referenceField: 'a_id'
             },
-        }
+        },
+        changelogConfig: SqlMediaDbAudioConfig.tableConfig.changelogConfig
     };
 
     public static readonly actionTagBlockConfig: ActionTagBlockTableConfigType = {
-        table: 'titles', idField: 't_id', blockField: 't_blocked'
+        table: 'titles', idField: 't_id', blockField: 't_blocked',
+        changelogConfig: SqlMediaDbAudioConfig.tableConfig.changelogConfig
     };
 
     public static readonly actionTagReplaceConfig: ActionTagReplaceTableConfigType = {
@@ -468,7 +494,8 @@ export class SqlMediaDbAudioConfig {
         joins: [
             { table: 'titles_keyword', fieldReference: 't_id' },
             { table: 'titles_playlist', fieldReference: 't_id' }
-        ]
+        ],
+        changelogConfig: SqlMediaDbAudioConfig.tableConfig.changelogConfig
     };
 }
 

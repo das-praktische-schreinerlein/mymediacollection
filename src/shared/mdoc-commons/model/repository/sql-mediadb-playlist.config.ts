@@ -58,7 +58,12 @@ export class SqlMediaDbPlaylistConfig {
             'CONCAT(p_name, " ", COALESCE(p_meta_desc,"")) AS html',
             'p_meta_desc',
             'p_meta_desc AS p_meta_desc_md',
-            'p_meta_desc AS p_meta_desc_html'],
+            'p_meta_desc AS p_meta_desc_html',
+            // changelog
+            'p_createdat',
+            'p_updatedat',
+            'p_updateversion'
+        ],
         facetConfigs: {
             // dashboard
             'doublettes': {
@@ -170,11 +175,20 @@ export class SqlMediaDbPlaylistConfig {
                 noFacet: true
             }
         },
+        changelogConfig: {
+            createDateField: 'p_createdat',
+            updateDateField: 'p_updatedat',
+            updateVersionField: 'p_updateversion',
+            table: 'playlist',
+            fieldId: 'p_id'
+        },
         sortMapping: {
             'countAudios': '(SELECT COUNT(DISTINCT p_sort.t_id) FROM titles_playlist p_sort WHERE p_sort.p_id = playlist.p_id) ASC, p_name ASC',
             'countAudiosDesc': '(SELECT COUNT(DISTINCT p_sort.t_id) FROM titles_playlist p_sort WHERE p_sort.p_id = playlist.p_id) DESC, p_name ASC',
             'forExport': 'playlist.p_id ASC, p_name ASC',
-            'relevance': 'playlist.p_id DESC, p_name ASC'
+            'relevance': 'playlist.p_id DESC, p_name ASC',
+            'createdAt': 'p_createdat DESC, playlist.p_id DESC',
+            'updatedAt': 'p_updatedat DESC, playlist.p_id DESC'
         },
         filterMapping: {
             // dashboard
@@ -187,6 +201,9 @@ export class SqlMediaDbPlaylistConfig {
             todoKeywords: '"666dummy999"',
             unrated: '"666dummy999"',
             unRatedChildren: '"666dummy999"',
+            // changelog
+            createdafter_dt: 'p_createdat',
+            updatedafter_dt: 'p_updatedat',
             // common
             id: 'playlist.p_id',
             album_id_i: '"dummy"',
@@ -218,7 +235,11 @@ export class SqlMediaDbPlaylistConfig {
             playlist_name_s: 'p_name',
             playlist_desc_txt: 'p_meta_desc',
             name_s: 'p_name',
-            type_s: 'type'
+            type_s: 'type',
+            // changelog
+            createdat_dt: 'p_createdat',
+            updatedat_dt: 'p_updatedat',
+            updateversion_i: 'p_updateversion'
         }
     };
 
@@ -228,7 +249,8 @@ export class SqlMediaDbPlaylistConfig {
         referenced: [],
         joins: [
             { table: 'titles_playlist', fieldReference: 'p_id' }
-        ]
+        ],
+        changelogConfig: SqlMediaDbPlaylistConfig.tableConfig.changelogConfig
     };
 }
 

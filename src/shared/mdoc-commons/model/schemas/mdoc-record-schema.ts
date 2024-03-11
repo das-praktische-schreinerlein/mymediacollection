@@ -17,6 +17,12 @@ export const MediaDocRecordSchema = new Schema({
         dateshow: {},
         datestart: {},
         dateend: {},
+
+        // TODO: add type validation for date in later version -> but date-values can be string|Date
+        createdAt: {},
+        updatedAt: {},
+        updateVersion: {type: 'number'},
+
         album: {type: 'string'},
         artist: {type: 'string'},
         genre: {type: 'string'},

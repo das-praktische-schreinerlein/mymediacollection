@@ -11,6 +11,7 @@
 - frontend: added support for iframe-print-preview for pdf in android-apps ;-)
 - backend: added pre-generated pdf-support for pdocs
 - use changelog of pdocs-de.json to identify create/updatedates
+- added changelog for media-tables
 
 ### new features
 - frontend: added full-page mdpad-editor
@@ -18,6 +19,7 @@
 - frontend: added support for iframe-print-preview for pdf in android-apps ;-)
 - backend: added pre-generated pdf-support for pdocs
 - use changelog of pdocs-de.json to identify create/updatedates
+- added changelog for media-tables
 
 ### improvements
 - use new commons

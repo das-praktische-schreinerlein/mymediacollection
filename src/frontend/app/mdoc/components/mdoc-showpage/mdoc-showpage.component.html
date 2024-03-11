@@ -22,6 +22,9 @@
                 <app-cdoc-extended-object-properties [extendedObjectProperties]="record.mdocextendedobjectproperties"
                                                      [categories]="['ENTITYCOUNT']"
                                                      [profile]="'show-big'"></app-cdoc-extended-object-properties>
+                <app-cdoc-changelog [record]="record"
+                                    [small]="false"
+                                    class="float-right hidden-print"></app-cdoc-changelog>
             </div>
             <span class="small-linebreak" style="line-height: 1px;display: block;"><br clear="all"/></span>
         </div>

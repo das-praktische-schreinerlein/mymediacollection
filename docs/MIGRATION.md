@@ -10,6 +10,15 @@
 UPDATE page SET pg_createdat='2023-07-08 00:00:00', pg_updatedat='2023-11-30 00:00:00', pg_updateversion=1;
 ```
 
+#### titles
+- use bash to generate a sql-file
+```shell
+cd F:/playground/mymm-test/mymmmediabase/audios
+/usr/bin/find . -name "*.mp3" -printf "UPDATE titles SET t_createdAt = '%BY-%Bm-%BdT%BH:%BM:00' WHERE './' || t_dir || '/' || t_file  LIKE \"%p\"\n" > f:/tmp/mymdedia-init-changelog.sql
+```
+- afterward generate defaults for all other: [migration-file](../installer/db/sqlite/musikdb/fixture-init-changelog.sql)
+
+
 ## Version 4.5 -> 5.0.0
 
 ### migrate page-documents

@@ -115,7 +115,11 @@ export class SqlMediaDbGenreConfig {
             'mr_key',
             'mr_key AS key',
             'mr_rate',
-            'mr_name AS html'
+            'mr_name AS html',
+            // changelog
+            'mr_createdat',
+            'mr_updatedat',
+            'mr_updateversion'
         ],
         facetConfigs: {
             // dashboard
@@ -250,6 +254,13 @@ export class SqlMediaDbGenreConfig {
                 noFacet: true
             }
         },
+        changelogConfig: {
+            createDateField: 'mr_createdat',
+            updateDateField: 'mr_updatedat',
+            updateVersionField: 'mr_updateversion',
+            table: 'musikrichtung',
+            fieldId: 'mr_id'
+        },
         sortMapping: {
             'countAlbums': '(SELECT COUNT(DISTINCT a_sort.a_id) FROM album a_sort WHERE a_sort.mr_id = musikrichtung.mr_id) ASC',
             'countAlbumsDesc': '(SELECT COUNT(DISTINCT a_sort.a_id) FROM album a_sort WHERE a_sort.mr_id = musikrichtung.mr_id) DESC',
@@ -262,7 +273,9 @@ export class SqlMediaDbGenreConfig {
             'forExport': 'musikrichtung.mr_id ASC',
             'name': 'mr_name ASC',
             'ratePers': 'musikrichtung.mr_rate DESC',
-            'relevance': 'musikrichtung.mr_id DESC'
+            'relevance': 'musikrichtung.mr_id DESC',
+            'createdAt': 'mr_createdat DESC, musikrichtung.mr_id DESC',
+            'updatedAt': 'mr_updatedat DESC, musikrichtung.mr_id DESC'
         },
         filterMapping: {
             // dashboard
@@ -275,6 +288,9 @@ export class SqlMediaDbGenreConfig {
             todoKeywords: 'keyword.kw_name',
             unrated: 'musikrichtung.mr_rate',
             unRatedChildren: '"unRatedChildren"',
+            // changelog
+            createdafter_dt: 'mr_createdat',
+            updatedafter_dt: 'mr_updatedat',
             // others
             id: 'musikrichtung.mr_id',
             album_id_i: '"dummy"',
@@ -307,7 +323,11 @@ export class SqlMediaDbGenreConfig {
             rate_pers_gesamt_i: 'mr_rate',
             key_s: 'key',
             type_s: 'type',
-            subtype_s: 'subtype'
+            subtype_s: 'subtype',
+            // changelog
+            createdat_dt: 'mr_createdat',
+            updatedat_dt: 'mr_updatedat',
+            updateversion_i: 'mr_updateversion'
         }
     };
 
@@ -317,18 +337,21 @@ export class SqlMediaDbGenreConfig {
         rateFields: {
             'gesamt': 'mr_rate'
         },
-        fieldSum: undefined
+        fieldSum: undefined,
+        changelogConfig: SqlMediaDbGenreConfig.tableConfig.changelogConfig
     };
 
     public static readonly actionTagAssignConfig: ActionTagAssignTableConfigType = {
         table: 'musikrichtung',
         idField: 'mr_id',
         references: {
-        }
+        },
+        changelogConfig: SqlMediaDbGenreConfig.tableConfig.changelogConfig
     };
 
     public static readonly actionTagBlockConfig: ActionTagBlockTableConfigType = {
-        table: 'musikrichtung', idField: 'mr_id', blockField: 'mr_blocked'
+        table: 'musikrichtung', idField: 'mr_id', blockField: 'mr_blocked',
+        changelogConfig: SqlMediaDbGenreConfig.tableConfig.changelogConfig
     };
 
     public static readonly actionTagReplaceConfig: ActionTagReplaceTableConfigType = {
@@ -341,7 +364,8 @@ export class SqlMediaDbGenreConfig {
         ],
         joins: [
             { table: 'musikrichtung_keyword', fieldReference: 'mr_id' }
-        ]
+        ],
+        changelogConfig: SqlMediaDbGenreConfig.tableConfig.changelogConfig
     };
 }
 

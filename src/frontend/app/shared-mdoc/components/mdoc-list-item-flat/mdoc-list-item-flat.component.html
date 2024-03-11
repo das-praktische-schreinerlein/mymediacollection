@@ -19,6 +19,9 @@
                     <app-cdoc-extended-object-properties [extendedObjectProperties]="listItem.currentRecord.mdocextendedobjectproperties"
                                                          [categories]="['ENTITYCOUNT']"
                                                          [profile]="'list-item-flat-big'" class="float-right"></app-cdoc-extended-object-properties>
+                    <app-cdoc-changelog [record]="record"
+                                        [small]="true"
+                                        class="float-right hidden-print"></app-cdoc-changelog>
                 </div>
             </ng-container>
             <ng-container *ngSwitchDefault="">
@@ -60,6 +63,9 @@
                 <div class="col-2 layout-big">
                     <app-cdoc-mediameta [record]="listItem.currentRecord.mdocmediameta"
                                        [small]="true"></app-cdoc-mediameta>
+                    <app-cdoc-changelog [record]="record"
+                                        [small]="true"
+                                        class="float-right hidden-print"></app-cdoc-changelog>
                 </div>
                 <div class="col-2 layout-big">
                     <div class="card-action-buttons align-bottom btn-group" role="group" aria-label="Actions">
